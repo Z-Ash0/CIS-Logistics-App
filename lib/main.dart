@@ -1,4 +1,5 @@
 import 'package:cis_logistics_app/core/routes/routes.dart';
+import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'CIS Logistikawy',
       debugShowCheckedModeBanner: false,
       onGenerateRoute: appRoutes.getRoute,
+      initialRoute: Routes.onBoardingScreen,
     );
   }
 }
