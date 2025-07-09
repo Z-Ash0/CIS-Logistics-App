@@ -28,7 +28,7 @@ class CISLogistics extends StatelessWidget {
       onGenerateRoute: appRoutes.getRoute,
       initialRoute: HiveService.isFirstTime.get(HiveKeys.kIsFirstTime) ?? true
           ? Routes.onBoardingScreen
-          : Routes.logInScreen,
+          : Routes.signInScreen,
     );
   }
 }

@@ -26,11 +26,11 @@ class CustomButton extends StatelessWidget {
         minimumSize: Size(double.infinity, 0),
         padding: EdgeInsets.symmetric(vertical: 14),
         shape: RoundedRectangleBorder(
-          side: BorderSide(color: AppColors.lighterGreen),
+          side: BorderSide(color: AppColors.lightGreen),
           borderRadius: BorderRadius.circular(10),
         ),
         foregroundColor: foregroundColor ?? AppColors.white,
-        backgroundColor: backgroundColor ?? AppColors.lighterGreen,
+        backgroundColor: backgroundColor ?? AppColors.lightGreen,
       ),
       child: Text(text, style: style ?? AppTextStyles.bold24),
     );

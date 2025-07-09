@@ -1,10 +1,12 @@
 class AppStrings {
   AppStrings._();
 
-  // General
+  // UI Labels
   static const String appName = 'CIS Logistikawy';
   static const String appDescription =
       'On the day of the event, we\'ll scan the QR code that was sent to attendees by email to confirm their attendance';
+  static const String rememberMeLabel = 'Remember me';
+  static const String forgetPasswordQuestion = 'Forget Password?';
 
   // Buttons
   static const String send = 'Send';
@@ -52,6 +54,12 @@ class AppStrings {
   static const String home = 'Home';
   static const String qrScanner = 'QR Scanner';
   static const String notifications = 'Notifications';
+
+  // Validation Messages
+  static const String enterEmailAddress = 'Please enter your email address';
+  static const String enterValidEmail = 'Please enter a valid email address';
+  static const String enterPassword = 'Please enter your password';
+  static const String invalidPassword = 'Invalid password';
 
   // Errors
   static const String networkError = 'Network Error. Please try again.';

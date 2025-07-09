@@ -4,10 +4,12 @@ class Routes {
   static const String onBoardingScreen = '/onBoardingScreen';
 
   //* Auth
-  static const String logInScreen = '/logInScreen';
+  static const String signInScreen = '/signInScreen';
   static const String forgotPasswordScreen = '/forgetPasswordScreen';
   static const String resetPasswordScreen = '/resetPasswordScreen';
   static const String changePasswordScreen = '/changePasswordScreen';
+  static const String confirmationCodeScreen = '/confirmationCodeScreen';
+
   static const String signUpScreen = '/signUpScreen';
   static const String signUpVerificationScreen = '/signUpVerificationScreen';
 
