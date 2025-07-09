@@ -119,7 +119,7 @@ class _SignInViewState extends State<SignInView> {
           ],
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () => context.navigateTo(Routes.forgotPasswordScreen),
           style: TextButton.styleFrom(
             padding: EdgeInsets.zero,
             minimumSize: Size.zero,

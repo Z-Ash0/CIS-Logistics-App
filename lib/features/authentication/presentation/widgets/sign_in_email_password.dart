@@ -21,7 +21,7 @@ class SignInEmailPassword extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _textFieldRequiredHeader(AppStrings.emailAddress),
-            const SizedBox(height: 8),
+            verticalSpace(8),
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
