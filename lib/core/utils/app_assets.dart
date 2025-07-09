@@ -13,10 +13,10 @@ class Assets {
       "assets/images/modrek_home_page.svg";
 
   static const String assetsImagesModrekWithQr =
-      "assets/images/modrek_with_qr.svg";
+      "assets/images/modrek_with_qr.png";
 
-  static const String assetsImagesOnboardingBackgroung =
-      "assets/images/onboarding_backgroung.svg";
+  static const String assetsImagesOnboardingBackground =
+      "assets/images/onboarding_background.png";
 
   static const String assetsImagesPasswordCahngeSuccess =
       "assets/images/password_cahnge_success.svg";
