@@ -16,8 +16,10 @@ class Routes {
   static const String userProfileScreen = '/userProfileScreen';
 }
 
-//* Fonts
-const String fontABeeZee = 'ABeeZee_button';
-const String fontAllerta = 'Allerta_button';
-const String fontBarlow = 'Barlow_header';
-const String fontBelanosima = 'Belanosima_text';
+class HiveBoxesNames {
+  static const String isFirstTime = 'isFirstTime';
+}
+
+class HiveKeys {
+  static const String kIsFirstTime = 'isFirstTime';
+}
