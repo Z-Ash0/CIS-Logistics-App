@@ -1,3 +1,4 @@
+import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       validator: widget.validator,
-      autocorrect: true,
       autovalidateMode: AutovalidateMode.onUnfocus,
       controller: widget.controller,
       keyboardType: widget.keyboardType ?? TextInputType.text,
@@ -40,9 +40,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.isObscured == true ? _obscureText : false,
       decoration: InputDecoration(
         isDense: false,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 12,
-          vertical: 16,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: context.setBasedOnScreenHeight(0.014),
+          vertical: context.setBasedOnScreenHeight(0.016),
         ),
         hintText: widget.hintText,
         hintStyle: AppTextStyles.regular16,

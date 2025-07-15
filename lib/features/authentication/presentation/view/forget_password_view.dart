@@ -5,6 +5,7 @@ import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
+import 'package:cis_logistics_app/core/utils/app_validators.dart';
 import 'package:cis_logistics_app/core/widgets/custom_button.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -37,13 +38,27 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                GestureDetector(
+                  onTap: () => context.pop(),
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: const Icon(
+                      Icons.arrow_back,
+                      size: 24,
+                      color: AppColors.black,
+                    ),
+                  ),
+                ),
+
                 verticalSpace(context.setBasedOnScreenHeight(0.07)),
 
                 Image.asset(
                   Assets.cisLogo,
                   height: context.setBasedOnScreenHeight(0.1),
                 ),
+
                 verticalSpace(8),
+
                 const Text(
                   AppStrings.forgetPassword,
                   style: AppTextStyles.bold24,
@@ -61,18 +76,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       CustomTextField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return AppStrings.enterEmailAddress;
-                          }
-                          final emailRegex = RegExp(
-                            r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                          );
-                          if (!emailRegex.hasMatch(value)) {
-                            return AppStrings.enterValidEmail;
-                          }
-                          return null;
-                        },
+                        validator: AppValidators.emailValidator,
                       ),
                       verticalSpace(context.setBasedOnScreenHeight(0.05)),
 
@@ -81,9 +85,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                           if (_forgetPasswordFormKey.currentState?.validate() ??
                               false) {
                             //TODO: Add backend logic here
-                            context.navigateAndRemoveUntil(
-                              Routes.confirmationCodeScreen,
-                            );
+                            context.navigateTo(Routes.confirmationCodeScreen);
                           }
                         },
                         text: AppStrings.send,
