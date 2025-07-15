@@ -2,6 +2,7 @@ import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
+import 'package:cis_logistics_app/core/utils/app_validators.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 
@@ -25,18 +26,7 @@ class SignInEmailPassword extends StatelessWidget {
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppStrings.enterEmailAddress;
-                }
-                final emailRegex = RegExp(
-                  r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
-                );
-                if (!emailRegex.hasMatch(value)) {
-                  return AppStrings.enterValidEmail;
-                }
-                return null;
-              },
+              validator: AppValidators.emailValidator,
             ),
           ],
         ),
@@ -52,14 +42,7 @@ class SignInEmailPassword extends StatelessWidget {
             CustomTextField(
               isObscured: true,
               controller: passController,
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return AppStrings.enterPassword;
-                } else if (value.length < 6) {
-                  return AppStrings.invalidPassword;
-                }
-                return null;
-              },
+              validator: AppValidators.passwordValidator,
             ),
           ],
         ),

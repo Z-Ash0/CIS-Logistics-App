@@ -7,6 +7,7 @@ class HiveService {
 
   static bool _isInitialized = false;
   static late Box isFirstTime;
+  static late Box isLoggedIn;
 
   static Future<void> init() async {
     if (!_isInitialized) {
@@ -15,6 +16,7 @@ class HiveService {
       _isInitialized = true;
     }
     isFirstTime = await HiveService.openHiveBox(HiveBoxesNames.isFirstTime);
+    isLoggedIn = await HiveService.openHiveBox(HiveBoxesNames.isLoggedIn);
   }
 
   static Future<Box> openHiveBox(String boxName) async {

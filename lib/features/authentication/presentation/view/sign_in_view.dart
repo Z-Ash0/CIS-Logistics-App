@@ -1,5 +1,6 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
+import 'package:cis_logistics_app/core/services/hive_service.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
@@ -70,6 +71,10 @@ class _SignInViewState extends State<SignInView> {
                           if (_signInFormKey.currentState?.validate() ??
                               false) {
                             //TODO: Add backend logic here
+                            HiveService.isLoggedIn.put(
+                              HiveKeys.kIsLoggedIn,
+                              true,
+                            );
                             context.navigateAndRemoveUntil(
                               Routes.mainPageScreen,
                             );
