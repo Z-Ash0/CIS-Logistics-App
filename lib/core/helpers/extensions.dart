@@ -24,3 +24,10 @@ extension NavigationExtension on BuildContext {
     Navigator.pop(this);
   }
 }
+
+//* String
+extension StringExtension on String? {
+  bool isNullOrEmpty() {
+    return this == null || this!.isEmpty;
+  }
+}

@@ -21,14 +21,19 @@ class CISLogistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AppRoutes appRoutes = AppRoutes();
     return MaterialApp(
       title: 'CIS Logistikawy',
       debugShowCheckedModeBanner: false,
-      onGenerateRoute: appRoutes.getRoute,
-      initialRoute: HiveService.isFirstTime.get(HiveKeys.kIsFirstTime) ?? true
-          ? Routes.onBoardingScreen
-          : Routes.logInScreen,
+      onGenerateRoute: AppRoutes().getRoute,
+      initialRoute: _getInitialRoute(),
     );
+  }
+
+  String _getInitialRoute() {
+    return HiveService.isFirstTime.get(HiveKeys.kIsFirstTime) ?? true
+        ? Routes.onBoardingScreen
+        : HiveService.isLoggedIn.get(HiveKeys.kIsLoggedIn) ?? false
+        ? Routes.mainPageScreen
+        : Routes.signInScreen;
   }
 }

@@ -48,15 +48,15 @@ class OnBoardingScreen extends StatelessWidget {
         CustomButton(
           onPressed: () {
             HiveService.isFirstTime.put(HiveKeys.kIsFirstTime, false);
-            context.navigateAndRemoveUntil(Routes.logInScreen);
+            context.navigateAndRemoveUntil(Routes.signInScreen);
           },
           text: AppStrings.next,
         ),
         verticalSpace(16),
         CustomButton(
-          onPressed: () => context.navigateAndRemoveUntil(Routes.logInScreen),
+          onPressed: () => context.navigateAndRemoveUntil(Routes.signInScreen),
           text: AppStrings.skip,
-          foregroundColor: AppColors.lighterGreen,
+          foregroundColor: AppColors.lightGreen,
           backgroundColor: AppColors.white,
         ),
       ],
@@ -68,7 +68,7 @@ Widget onBoardingImage() => LayoutBuilder(
   builder: (context, constraints) {
     return Stack(
       children: [
-        Image.asset(Assets.assetsImagesOnboardingBackground, fit: BoxFit.cover),
+        Image.asset(Assets.onboardingBackground, fit: BoxFit.cover),
         Positioned(
           left: 0,
           right: 20,
@@ -76,10 +76,7 @@ Widget onBoardingImage() => LayoutBuilder(
           child: SizedBox(
             width: constraints.maxWidth * 0.65,
             height: constraints.maxHeight * 0.65,
-            child: Image.asset(
-              Assets.assetsImagesModrekWithQr,
-              fit: BoxFit.contain,
-            ),
+            child: Image.asset(Assets.modrekWithQr, fit: BoxFit.contain),
           ),
         ),
       ],

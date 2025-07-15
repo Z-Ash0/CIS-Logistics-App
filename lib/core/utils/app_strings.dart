@@ -1,10 +1,12 @@
 class AppStrings {
   AppStrings._();
 
-  // General
+  // UI Labels
   static const String appName = 'CIS Logistikawy';
   static const String appDescription =
       'On the day of the event, we\'ll scan the QR code that was sent to attendees by email to confirm their attendance';
+  static const String rememberMeLabel = 'Remember me';
+  static const String forgetPasswordQuestion = 'Forget Password?';
 
   // Buttons
   static const String send = 'Send';
@@ -18,6 +20,7 @@ class AppStrings {
 
   // Auth
   static const String signIn = 'Sign In';
+  static const String logIn = 'Log In';
 
   static const String emailAddress = 'Email Address';
   static const String password = 'Password';
@@ -52,6 +55,33 @@ class AppStrings {
   static const String home = 'Home';
   static const String qrScanner = 'QR Scanner';
   static const String notifications = 'Notifications';
+
+  // Validation Messages
+  static const String enterEmailAddress = 'Please enter your email address';
+  static const String enterValidEmail = 'Please enter a valid email address';
+  static const String enterPassword = 'Please enter your password';
+  static const String invalidPassword = 'Invalid password';
+  static const String enterDigit = 'Please enter a digit';
+  static const String pleaseEnterAllDigits = 'Please enter all 6 digits';
+
+  // Password Validation Messages
+  static const String passwordTooShort =
+      'Password must be at least 8 characters';
+  static const String passwordTooLong =
+      'Password must be less than 50 characters';
+  static const String passwordMissingUppercase =
+      'Password must contain at least one uppercase letter';
+  static const String passwordMissingLowercase =
+      'Password must contain at least one lowercase letter';
+  static const String passwordMissingNumber =
+      'Password must contain at least one number';
+  static const String passwordMissingSpecialChar =
+      'Password must contain at least one special character';
+  static const String passwordsDoNotMatch = 'Passwords do not match';
+  static const String enterConfirmPassword = 'Please confirm your password';
+  static const String weakPassword = 'Password is too weak';
+  static const String strongPassword = 'Strong password';
+  static const String mediumPassword = 'Medium strength password';
 
   // Errors
   static const String networkError = 'Network Error. Please try again.';
