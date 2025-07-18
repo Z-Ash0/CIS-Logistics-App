@@ -5,6 +5,7 @@ class AppStrings {
   static const String appName = 'CIS Logistikawy';
   static const String appDescription =
       'On the day of the event, we\'ll scan the QR code that was sent to attendees by email to confirm their attendance';
+  static const String welcome = 'Welcome';
   static const String rememberMeLabel = 'Remember me';
   static const String forgetPasswordQuestion = 'Forget Password?';
 
@@ -35,6 +36,8 @@ class AppStrings {
 
   static const String passwordChangeSuccessfully =
       'Password Change\nsuccessfully !';
+  static const String passwordUpdatedSuccessfully =
+      'Password updated successfully';
   static const String pleaseLogin =
       'Your Password has been changed\nsuccessfully ! please log in with new\npassword.';
 
@@ -50,11 +53,17 @@ class AppStrings {
   static const String fullName = 'Full Name';
   static const String newPassword = 'New Password';
   static const String currentPassword = 'Current Password';
+  static const String logout = 'Logout';
+  static const String logOut = 'Log Out';
+  static const String logoutConfirmTitle = 'Logout';
+  static const String logoutConfirmMessage = 'Are you sure you want to logout?';
 
   // Bottom Navigation Bar
   static const String home = 'Home';
   static const String qrScanner = 'QR Scanner';
   static const String notifications = 'Notifications';
+  static const String qrScannerScreen = 'QR Scanner Screen';
+  static const String noNewNotifications = 'No new notifications';
 
   // Validation Messages
   static const String enterEmailAddress = 'Please enter your email address';

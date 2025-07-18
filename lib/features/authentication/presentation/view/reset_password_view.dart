@@ -68,7 +68,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                   verticalSpace(8),
 
                   const Text(
-                    AppStrings.forgetPassword,
+                    AppStrings.resetPassword,
                     style: AppTextStyles.bold24,
                   ),
 
