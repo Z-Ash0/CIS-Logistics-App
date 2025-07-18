@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
     this.foregroundColor,
     required this.text,
     this.style,
+    this.defaultSize,
   });
 
   final VoidCallback onPressed;
@@ -18,15 +19,17 @@ class CustomButton extends StatelessWidget {
   final Color? foregroundColor;
   final String text;
   final TextStyle? style;
+  final bool? defaultSize;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        minimumSize: Size(double.infinity, 0),
+        minimumSize: defaultSize ?? false ? null : Size(double.infinity, 0),
         padding: EdgeInsets.symmetric(
           vertical: context.setBasedOnScreenHeight(0.016),
+          horizontal: defaultSize ?? false ? 40 : 0,
         ),
         shape: RoundedRectangleBorder(
           side: BorderSide(color: AppColors.lightGreen),
