@@ -1,4 +1,5 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
+import 'package:cis_logistics_app/core/helpers/theme_extension.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,6 @@ class CustomTextField extends StatefulWidget {
   const CustomTextField({
     super.key,
     this.controller,
-    this.filled,
     this.isObscured,
     this.hintText,
     this.keyboardType,
@@ -15,7 +15,6 @@ class CustomTextField extends StatefulWidget {
   });
 
   final TextEditingController? controller;
-  final bool? filled;
   final bool? isObscured;
   final String? hintText;
   final TextInputType? keyboardType;
@@ -35,7 +34,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       autovalidateMode: AutovalidateMode.onUnfocus,
       controller: widget.controller,
       keyboardType: widget.keyboardType ?? TextInputType.text,
-      style: TextStyle(color: AppColors.darkGreen),
+      style: TextStyle(color: context.customColors.textFieldInputColor),
 
       obscureText: widget.isObscured == true ? _obscureText : false,
       decoration: InputDecoration(
@@ -62,14 +61,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: AppColors.lighterRed),
         ),
-        fillColor: AppColors.greenWhite,
-        filled: widget.filled ?? false,
+        fillColor: context.customColors.textFieldBackgroundColor,
+        filled: context.isDark,
         suffixIcon: widget.isObscured ?? false
             ? IconButton(
                 onPressed: () => setState(() => _obscureText = !_obscureText),
                 icon: Icon(
                   _obscureText ? Icons.visibility : Icons.visibility_off,
-                  color: AppColors.darkGray,
                 ),
               )
             : null,

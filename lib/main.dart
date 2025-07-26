@@ -1,12 +1,22 @@
+import 'package:cis_logistics_app/core/di/dependency_injection.dart';
+import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/routes/routes.dart';
 import 'package:cis_logistics_app/core/services/hive_service.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
+import 'package:cis_logistics_app/features/theme/data/theme_service.dart';
+import 'package:cis_logistics_app/features/theme/logic/theme_cubit.dart';
+import 'package:cis_logistics_app/features/theme/presentation/theme_data_dark.dart';
+import 'package:cis_logistics_app/features/theme/presentation/theme_data_light.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await HiveService.init();
+  await dotenv.load(fileName: '.env');
+
+  await setupDependencies();
   runApp(
     DevicePreview(
       enabled: true,
@@ -21,18 +31,26 @@ class CISLogistics extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'CIS Logistikawy',
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: AppRoutes().getRoute,
-      initialRoute: _getInitialRoute(),
+    return BlocProvider(
+      create: (_) => ThemeCubit(ThemeService()),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (_, newTheme) => MaterialApp(
+          title: 'CIS Logistikawy',
+          debugShowCheckedModeBanner: false,
+          theme: getLightTheme(),
+          darkTheme: getDarkTheme(),
+          themeMode: newTheme,
+          onGenerateRoute: AppRoutes().getRoute,
+          initialRoute: _getInitialRoute(),
+        ),
+      ),
     );
   }
 
   String _getInitialRoute() {
-    return HiveService.isFirstTime.get(HiveKeys.kIsFirstTime) ?? true
+    return getIt<HiveService>().isFirstTime
         ? Routes.onBoardingScreen
-        : HiveService.isLoggedIn.get(HiveKeys.kIsLoggedIn) ?? false
+        : getIt<HiveService>().isLoggedIn
         ? Routes.mainPageScreen
         : Routes.signInScreen;
   }
