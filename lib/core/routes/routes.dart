@@ -1,4 +1,6 @@
+import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_cubit.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/view/confirmation_code_view.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/view/forget_password_view.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/view/password_change_success_screen.dart';
@@ -9,6 +11,7 @@ import 'package:cis_logistics_app/features/onboarding/presentation/views/on_boar
 import 'package:cis_logistics_app/features/profile/presentation/view/change_password_view.dart';
 import 'package:cis_logistics_app/features/profile/presentation/view/user_profile_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AppRoutes {
   Route? getRoute(RouteSettings settings) {
@@ -19,7 +22,12 @@ class AppRoutes {
 
       //* Authentication Routes
       case Routes.signInScreen:
-        return MaterialPageRoute(builder: (_) => const SignInView());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const SignInView(),
+          ),
+        );
 
       case Routes.forgotPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ForgetPasswordView());
