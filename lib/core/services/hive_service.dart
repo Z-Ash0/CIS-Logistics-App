@@ -3,23 +3,29 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveService {
-  HiveService._();
-
   static bool _isInitialized = false;
-  static late Box isFirstTime;
-  static late Box isLoggedIn;
+  late Box isFirstTimeBox;
+  late Box isLoggedInBox;
+  late Box userRoleBox;
+  late Box themeModeBox;
 
-  static Future<void> init() async {
+  Future<void> init() async {
     if (!_isInitialized) {
       final dir = await getApplicationDocumentsDirectory();
       Hive.init(dir.path);
       _isInitialized = true;
     }
-    isFirstTime = await HiveService.openHiveBox(HiveBoxesNames.isFirstTime);
-    isLoggedIn = await HiveService.openHiveBox(HiveBoxesNames.isLoggedIn);
+    await _openHiveBoxes();
   }
 
-  static Future<Box> openHiveBox(String boxName) async {
+  Future<void> _openHiveBoxes() async {
+    isFirstTimeBox = await openHiveBox(HiveBoxesNames.isFirstTime);
+    isLoggedInBox = await openHiveBox(HiveBoxesNames.isLoggedIn);
+    userRoleBox = await openHiveBox(HiveBoxesNames.userRole);
+    themeModeBox = await openHiveBox(HiveBoxesNames.themeMode);
+  }
+
+  Future<Box> openHiveBox(String boxName) async {
     if (!Hive.isBoxOpen(boxName)) {
       return await Hive.openBox(boxName);
     }
