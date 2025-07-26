@@ -1,4 +1,6 @@
+import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
+import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/services/hive_service.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
@@ -35,26 +37,23 @@ class OnBoardingScreen extends StatelessWidget {
             ),
 
             //* Buttons Section
-            _buttonsSection(context),
+            _buttonsSection(() {
+              getIt<HiveService>().setIsFirstTimeValue(false);
+              context.navigateAndRemoveUntil(Routes.signInScreen);
+            }),
           ],
         ),
       ),
     );
   }
 
-  Widget _buttonsSection(BuildContext context) {
+  Widget _buttonsSection(VoidCallback onPressed) {
     return Column(
       children: [
-        CustomButton(
-          onPressed: () {
-            HiveService.isFirstTime.put(HiveKeys.kIsFirstTime, false);
-            context.navigateAndRemoveUntil(Routes.signInScreen);
-          },
-          text: AppStrings.next,
-        ),
+        CustomButton(onPressed: onPressed, text: AppStrings.next),
         verticalSpace(16),
         CustomButton(
-          onPressed: () => context.navigateAndRemoveUntil(Routes.signInScreen),
+          onPressed: onPressed,
           text: AppStrings.skip,
           foregroundColor: AppColors.lightGreen,
           backgroundColor: AppColors.white,

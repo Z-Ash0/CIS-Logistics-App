@@ -50,7 +50,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   ),
                 ),
 
-                verticalSpace(context.setBasedOnScreenHeight(0.07)),
+                verticalSpaceScreen(context, 0.07),
 
                 Image.asset(
                   Assets.cisLogo,
@@ -64,7 +64,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   style: AppTextStyles.bold24,
                 ),
 
-                verticalSpace(context.setBasedOnScreenHeight(0.07)),
+                verticalSpaceScreen(context, 0.07),
 
                 Form(
                   key: _forgetPasswordFormKey,
@@ -78,7 +78,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                         keyboardType: TextInputType.emailAddress,
                         validator: AppValidators.emailValidator,
                       ),
-                      verticalSpace(context.setBasedOnScreenHeight(0.05)),
+                      verticalSpaceScreen(context, 0.05),
 
                       CustomButton(
                         onPressed: () {

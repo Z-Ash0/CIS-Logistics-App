@@ -58,7 +58,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                       ),
                     ),
                   ),
-                  verticalSpace(context.setBasedOnScreenHeight(0.03)),
+                  verticalSpaceScreen(context, 0.03),
 
                   Image.asset(
                     Assets.cisLogo,
@@ -99,7 +99,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           validator: AppValidators.newPasswordValidator,
                         ),
 
-                        verticalSpace(context.setBasedOnScreenHeight(0.03)),
+                        verticalSpaceScreen(context, 0.03),
                         Text(
                           AppStrings.confirmPassword,
                           style: AppTextStyles.medium18,
@@ -116,7 +116,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                                 _passController.text,
                               ),
                         ),
-                        verticalSpace(context.setBasedOnScreenHeight(0.03)),
+                        verticalSpaceScreen(context, 0.03),
 
                         CustomButton(
                           onPressed: () {
@@ -132,7 +132,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           text: AppStrings.continueTxt,
                           style: AppTextStyles.bold16,
                         ),
-                        verticalSpace(context.setBasedOnScreenHeight(0.02)),
+                        verticalSpaceScreen(context, 0.02),
 
                         CustomButton(
                           onPressed: () {

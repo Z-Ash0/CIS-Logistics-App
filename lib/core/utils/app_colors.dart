@@ -4,7 +4,7 @@ class AppColors {
   AppColors._();
   //* Black
   static const Color black = Color(0xFF000000);
-  static const Color lightBlack = Color(0xFF414040);
+  static const Color lightBlack = Color.fromARGB(255, 108, 108, 108);
 
   //* Green
   static const Color teal = Color(0xFF19BD9F);

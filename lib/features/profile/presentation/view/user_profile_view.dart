@@ -1,4 +1,6 @@
+import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
+import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/services/hive_service.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
@@ -39,7 +41,7 @@ class _UserProfileViewState extends State<UserProfileView> {
         context.pop();
       },
       onTapConfirm: () {
-        HiveService.isLoggedIn.put(HiveKeys.kIsLoggedIn, false);
+        getIt<HiveService>().setIsloggedInValue(false);
         context.navigateAndRemoveUntil(Routes.signInScreen);
       },
       panaraDialogType: PanaraDialogType.custom,
@@ -55,7 +57,7 @@ class _UserProfileViewState extends State<UserProfileView> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              verticalSpace(context.setBasedOnScreenHeight(0.02)),
+              verticalSpaceScreen(context, 0.02),
               UserProfileImage(image: ''),
               verticalSpace(8),
               // Name Display

@@ -23,6 +23,7 @@ class AppStrings {
   static const String signIn = 'Sign In';
   static const String logIn = 'Log In';
 
+  static const String role = 'Role';
   static const String emailAddress = 'Email Address';
   static const String password = 'Password';
   static const String resetPassword = 'Reset Password';
@@ -40,6 +41,7 @@ class AppStrings {
       'Password updated successfully';
   static const String pleaseLogin =
       'Your Password has been changed\nsuccessfully ! please log in with new\npassword.';
+  static const String loginSuccess = 'Welcome back! We missed you';
 
   static const String confirmationCode = 'Confirmation Code';
   static const String checkYourEmail = 'Check Your Email';

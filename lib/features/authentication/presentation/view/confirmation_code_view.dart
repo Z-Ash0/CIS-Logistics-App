@@ -131,7 +131,7 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
           child: Column(
             children: [
               _buildBackButton(),
-              verticalSpace(context.setBasedOnScreenHeight(0.07)),
+              verticalSpaceScreen(context, 0.07),
               _buildLogo(context),
               verticalSpace(8),
               const Text(
@@ -139,7 +139,7 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
                 style: AppTextStyles.bold24,
               ),
               _buildSubtitle(),
-              verticalSpace(context.setBasedOnScreenHeight(0.07)),
+              verticalSpaceScreen(context, 0.07),
               OtpTextBoxes(
                 controllers: _controllers,
                 focusNodes: _focusNodes,
@@ -148,7 +148,7 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
                 hasError: _hasError,
                 errorMessage: _errorMessage,
               ),
-              verticalSpace(context.setBasedOnScreenHeight(0.05)),
+              verticalSpaceScreen(context, 0.05),
               CustomButton(
                 onPressed: () {
                   if (_validateOtp()) {
