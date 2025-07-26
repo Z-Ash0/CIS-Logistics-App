@@ -1,9 +1,8 @@
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
-import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
-import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/widgets/text_field_required_header.dart';
 import 'package:flutter/material.dart';
 
 class SignInEmailPassword extends StatelessWidget {
@@ -21,7 +20,7 @@ class SignInEmailPassword extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _textFieldRequiredHeader(AppStrings.emailAddress),
+            TextFieldRequiredHeader(AppStrings.emailAddress),
             verticalSpace(8),
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
@@ -37,7 +36,7 @@ class SignInEmailPassword extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _textFieldRequiredHeader(AppStrings.password),
+            TextFieldRequiredHeader(AppStrings.password),
             verticalSpace(8),
             CustomTextField(
               isObscured: true,
@@ -49,19 +48,4 @@ class SignInEmailPassword extends StatelessWidget {
       ],
     );
   }
-}
-
-RichText _textFieldRequiredHeader(String text) {
-  return RichText(
-    text: TextSpan(
-      text: text,
-      style: AppTextStyles.medium16.copyWith(color: AppColors.darkerGreen),
-      children: [
-        TextSpan(
-          text: ' *',
-          style: TextStyle(fontSize: 14, color: AppColors.lighterRed),
-        ),
-      ],
-    ),
-  );
 }
