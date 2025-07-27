@@ -1,6 +1,6 @@
 import 'package:cis_logistics_app/core/newtorking/api_service.dart';
 import 'package:cis_logistics_app/core/newtorking/dio_factory.dart';
-import 'package:cis_logistics_app/core/services/hive_service.dart';
+import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/features/authentication/data/repository/auth_repository.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_cubit.dart';
 import 'package:cis_logistics_app/features/theme/data/theme_service.dart';
@@ -13,8 +13,8 @@ final getIt = GetIt.I;
 
 Future<void> setupDependencies() async {
   //* Local Storage
-  getIt.registerLazySingleton<HiveService>(() => HiveService());
-  await getIt<HiveService>().init();
+  getIt.registerLazySingleton<StorageService>(() => StorageService());
+  await getIt<StorageService>().init();
 
   //* ApiService
   Dio dio = DioFactory.getDio();

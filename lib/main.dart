@@ -1,7 +1,7 @@
 import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/routes/routes.dart';
-import 'package:cis_logistics_app/core/services/hive_service.dart';
+import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/features/theme/data/theme_service.dart';
 import 'package:cis_logistics_app/features/theme/logic/theme_cubit.dart';
@@ -48,9 +48,9 @@ class CISLogistics extends StatelessWidget {
   }
 
   String _getInitialRoute() {
-    return getIt<HiveService>().isFirstTime
+    return getIt<StorageService>().isFirstTime
         ? Routes.onBoardingScreen
-        : getIt<HiveService>().isLoggedIn
+        : getIt<StorageService>().isLoggedIn
         ? Routes.mainPageScreen
         : Routes.signInScreen;
   }

@@ -4,7 +4,8 @@ import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/newtorking/api_error_handler.dart';
 import 'package:cis_logistics_app/core/newtorking/api_result.dart';
 import 'package:cis_logistics_app/core/newtorking/api_service.dart';
-import 'package:cis_logistics_app/core/services/hive_service.dart';
+import 'package:cis_logistics_app/core/services/storage_service.dart';
+import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
 
@@ -22,9 +23,12 @@ class AuthRepository {
         loginRequest: loginRequest,
         role: role.endpoint,
       );
-
-      getIt<HiveService>().setIsloggedInValue(true);
-      getIt<HiveService>().setUserRoleValue(role.name);
+      getIt<StorageService>().putSecure(
+        StorageServiceKeys.kAccessToken,
+        response.token,
+      );
+      getIt<StorageService>().setIsloggedInValue(true);
+      getIt<StorageService>().setUserRoleValue(role.name);
       return ApiResult.success(response);
     } on Exception catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));

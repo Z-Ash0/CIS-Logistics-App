@@ -2,7 +2,7 @@ import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
-import 'package:cis_logistics_app/core/services/hive_service.dart';
+import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
@@ -41,7 +41,7 @@ class _UserProfileViewState extends State<UserProfileView> {
         context.pop();
       },
       onTapConfirm: () {
-        getIt<HiveService>().setIsloggedInValue(false);
+        getIt<StorageService>().setIsloggedInValue(false);
         context.navigateAndRemoveUntil(Routes.signInScreen);
       },
       panaraDialogType: PanaraDialogType.custom,

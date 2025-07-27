@@ -2,7 +2,7 @@ import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
-import 'package:cis_logistics_app/core/services/hive_service.dart';
+import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
@@ -38,7 +38,7 @@ class OnBoardingScreen extends StatelessWidget {
 
             //* Buttons Section
             _buttonsSection(() {
-              getIt<HiveService>().setIsFirstTimeValue(false);
+              getIt<StorageService>().setIsFirstTimeValue(false);
               context.navigateAndRemoveUntil(Routes.signInScreen);
             }),
           ],
