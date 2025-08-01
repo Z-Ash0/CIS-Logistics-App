@@ -17,11 +17,14 @@ Future<void> setupDependencies() async {
   await getIt<StorageService>().init();
 
   //* ApiService
-  Dio dio = DioFactory.getDio();
   final baseUrl = dotenv.env['BASE_URL'];
-  getIt.registerLazySingleton<ApiService>(
-    () => ApiService(dio, baseUrl: baseUrl),
-  );
+  if (baseUrl != null) {
+    getIt.registerLazySingleton<DioFactory>(() => DioFactory(baseUrl));
+    getIt.registerLazySingleton<Dio>(() => getIt<DioFactory>().getDio());
+    getIt.registerLazySingleton<ApiService>(
+      () => ApiService(getIt<Dio>(), baseUrl: baseUrl),
+    );
+  }
 
   //* Auth
   // AuthRepository injection

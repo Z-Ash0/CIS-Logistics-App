@@ -1,43 +1,42 @@
 import 'package:cis_logistics_app/core/newtorking/api_constants.dart';
+import 'package:cis_logistics_app/core/newtorking/token_interceptor.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioFactory {
-  DioFactory._();
-  static Dio? dio;
+  final String baseUrl;
 
-  static Dio getDio() {
+  DioFactory(this.baseUrl);
+
+  Dio getDio() {
     Duration defaultTimeout = const Duration(seconds: 30);
-    if (dio == null) {
-      dio = Dio();
-      dio!
-        ..options.connectTimeout = defaultTimeout
-        ..options.receiveTimeout = defaultTimeout;
-
-      addDioHeaders();
-      addDioInterceptor();
-    }
-
-    return dio!;
-  }
-
-  static void addDioHeaders() async {
-    dio?.options.headers = {ApiConstants.accept: ApiConstants.acceptType};
-  }
-
-  static void setTokenIntoHeaderAfterLogin(String token) {
-    dio?.options.headers = {
-      ApiConstants.authorization: ApiConstants.bearerPrefix + token,
-    };
-  }
-
-  static void addDioInterceptor() {
-    dio?.interceptors.add(
-      PrettyDioLogger(
-        requestBody: true,
-        requestHeader: true,
-        responseHeader: true,
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: defaultTimeout,
+        receiveTimeout: defaultTimeout,
+        headers: {ApiConstants.contentTypeKey: ApiConstants.contentTypeValue},
       ),
     );
+    addDioInterceptor(dio);
+    return dio;
+  }
+
+  void addDioInterceptor(Dio dio) {
+    dio.interceptors.addAll([
+      if (kDebugMode) ...{
+        PrettyDioLogger(
+          requestHeader: true,
+          requestBody: true,
+          responseBody: true,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90,
+        ),
+      },
+      TokenInterceptor(),
+    ]);
   }
 }
