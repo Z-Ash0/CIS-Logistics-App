@@ -15,10 +15,7 @@ class ApiErrorHandler {
         return ApiErrorMessages.connectionTimeout;
 
       case DioExceptionType.badResponse:
-        return _handleHttpStatusCode(
-          exception.response?.statusCode,
-          exception.response,
-        );
+        return _handleHttpStatusCode(exception.response);
 
       case DioExceptionType.cancel:
         return ApiErrorMessages.requestCancelled;
@@ -39,7 +36,8 @@ class ApiErrorHandler {
   }
 
   /// Maps HTTP status codes to appropriate error messages
-  static String _handleHttpStatusCode(int? statusCode, [Response? response]) {
+  static String _handleHttpStatusCode([Response? response]) {
+    final statusCode = response?.statusCode;
     if (statusCode == null) return ApiErrorMessages.unknownError;
 
     // Try to parse error response using ApiErrorModel for more specific messages
@@ -79,6 +77,9 @@ class ApiErrorHandler {
 
   static String? _parseErrorResponse(Response response, int statusCode) {
     try {
+      if (response.data is! Map<String, dynamic>) {
+        return null;
+      }
       final errorModel = ApiErrorModel.fromJson(response.data);
       final message = errorModel.message.toLowerCase();
 
@@ -93,12 +94,34 @@ class ApiErrorHandler {
 
   /// Checks if the exception is related to network connectivity
   static bool _isNetworkError(DioException exception) {
+    if (exception.error is SocketException ||
+        exception.error is HttpException) {
+      return true;
+    }
+
+    if (exception.type == DioExceptionType.connectionTimeout ||
+        exception.type == DioExceptionType.sendTimeout ||
+        exception.type == DioExceptionType.receiveTimeout ||
+        exception.type == DioExceptionType.connectionError) {
+      return true;
+    }
+
     final message = exception.message?.toLowerCase() ?? '';
-    return message.contains('network') ||
-        message.contains('connection') ||
-        message.contains('unreachable') ||
-        message.contains('timeout') ||
-        exception.error is SocketException;
+    final errorString = exception.error?.toString().toLowerCase() ?? '';
+
+    final networkKeywords = [
+      'network',
+      'connection',
+      'unreachable',
+      'timeout',
+      'host lookup failed',
+      'no route to host',
+      'connection refused',
+    ];
+
+    return networkKeywords.any(
+      (keyword) => message.contains(keyword) || errorString.contains(keyword),
+    );
   }
 
   /// Extracts a user-friendly message from any exception

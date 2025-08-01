@@ -10,6 +10,11 @@ ThemeData getDarkTheme() {
       brightness: Brightness.dark,
     ),
 
+    appBarTheme: const AppBarTheme(
+      backgroundColor: AppColors.darkerGreen,
+      elevation: 0,
+    ),
+
     checkboxTheme: CheckboxThemeData(
       checkColor: WidgetStateProperty.all(AppColors.white), // White ✓
       fillColor: WidgetStateProperty.resolveWith<Color>((states) {
