@@ -1,7 +1,7 @@
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
+import 'package:cis_logistics_app/features/profile/data/model/user.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 
 class StorageService {
   bool _isHiveInitialized = false;
@@ -12,6 +12,7 @@ class StorageService {
   late Box isLoggedInBox;
   late Box userRoleBox;
   late Box themeModeBox;
+  late Box<UserData> userDataBox;
 
   Future<void> init() async {
     await _initHive();
@@ -19,9 +20,8 @@ class StorageService {
   }
 
   Future<void> _initHive() async {
-    if (!_isHiveInitialized) return;
-    final dir = await getApplicationDocumentsDirectory();
-    Hive.init(dir.path);
+    if (_isHiveInitialized) return;
+    await Hive.initFlutter();
     await _openHiveBoxes();
     _isHiveInitialized = true;
   }
@@ -31,6 +31,7 @@ class StorageService {
     isLoggedInBox = await openHiveBox(StorageServiceBoxNames.isLoggedIn);
     userRoleBox = await openHiveBox(StorageServiceBoxNames.userRole);
     themeModeBox = await openHiveBox(StorageServiceBoxNames.themeMode);
+    userDataBox = await Hive.openBox<UserData>(StorageServiceBoxNames.userData);
   }
 
   Future<Box> openHiveBox(String boxName) async {
@@ -60,4 +61,19 @@ class StorageService {
       await _secureStorage?.delete(key: key);
 
   Future<void> clearAllSecure() async => await _secureStorage?.deleteAll();
+
+  // User data methods
+  Future<void> saveUserData(User user) async {
+    await userDataBox.put(StorageServiceKeys.kUserData, user.data);
+  }
+
+  UserData? getUserData() {
+    return userDataBox.get(StorageServiceKeys.kUserData);
+  }
+
+  Future<void> deleteUserData() async {
+    await userDataBox.delete(StorageServiceKeys.kUserData);
+  }
+
+  bool get hasUserData => userDataBox.containsKey(StorageServiceKeys.kUserData);
 }

@@ -25,6 +25,7 @@ class StorageServiceBoxNames {
   static const String isLoggedIn = 'isLoggedInBox';
   static const String userRole = 'userRoleBox';
   static const String themeMode = 'themeModeBox';
+  static const String userData = 'userDataBox';
 }
 
 class StorageServiceKeys {
@@ -33,4 +34,5 @@ class StorageServiceKeys {
   static const String kUserRole = 'userRoleKey';
   static const String kThemeMode = 'themeModeKey';
   static const String kAccessToken = 'accessTokenKey';
+  static const String kUserData = 'userDataKey';
 }
