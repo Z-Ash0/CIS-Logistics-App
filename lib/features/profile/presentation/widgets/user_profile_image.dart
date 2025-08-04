@@ -1,4 +1,5 @@
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
+import 'package:cis_logistics_app/core/widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
 
 class UserProfileImage extends StatelessWidget {
@@ -15,18 +16,7 @@ class UserProfileImage extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: const Color(0xFF2D9B8B), width: 3),
           ),
-          child: ClipOval(
-            child: Image.network(
-              image,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  color: Colors.grey[300],
-                  child: const Icon(Icons.person, size: 60, color: Colors.grey),
-                );
-              },
-            ),
-          ),
+          child: UserAvatar(imageUrl: image),
         ),
         Positioned(
           bottom: 0,

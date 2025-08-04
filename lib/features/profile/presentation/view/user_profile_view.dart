@@ -3,14 +3,17 @@ import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
+import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/widgets/custom_button.dart';
+import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/profile/presentation/widgets/user_profile_image.dart';
 import 'package:cis_logistics_app/features/profile/presentation/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:panara_dialogs/panara_dialogs.dart';
 
 class UserProfileView extends StatefulWidget {
@@ -25,9 +28,18 @@ class _UserProfileViewState extends State<UserProfileView> {
   final TextEditingController _emailController = TextEditingController();
   @override
   void initState() {
-    _fullNameController.text = 'Zash';
-    _emailController.text = 'zfire3005@gmail.com';
     super.initState();
+    _loadUserData();
+  }
+
+  void _loadUserData() {
+    final userData = getIt<StorageService>().getUserData();
+    if (userData != null) {
+      _fullNameController.text = userData.name;
+      _emailController.text = userData.email;
+    } else {
+      context.read<UserCubit>().loadUserData();
+    }
   }
 
   void _handleLogout() {
@@ -42,6 +54,7 @@ class _UserProfileViewState extends State<UserProfileView> {
       },
       onTapConfirm: () {
         getIt<StorageService>().setIsloggedInValue(false);
+        getIt<StorageService>().deleteUserData(); // Clear user data on logout
         context.navigateAndRemoveUntil(Routes.signInScreen);
       },
       panaraDialogType: PanaraDialogType.custom,
@@ -51,6 +64,8 @@ class _UserProfileViewState extends State<UserProfileView> {
 
   @override
   Widget build(BuildContext context) {
+    final String userAvatar =
+        getIt<StorageService>().getUserData()?.avatar ?? Assets.user;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -58,11 +73,12 @@ class _UserProfileViewState extends State<UserProfileView> {
           child: Column(
             children: [
               verticalSpaceScreen(context, 0.02),
-              UserProfileImage(image: ''),
+              UserProfileImage(image: userAvatar),
               verticalSpace(8),
               // Name Display
               Text(
-                'ZASH',
+                getIt<StorageService>().getUserData()?.name.toUpperCase() ??
+                    'USER',
                 style: AppTextStyles.bold16.copyWith(
                   color: AppColors.lightGreen,
                 ),
