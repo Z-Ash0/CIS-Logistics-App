@@ -8,6 +8,7 @@ import 'package:cis_logistics_app/features/authentication/presentation/view/rese
 import 'package:cis_logistics_app/features/authentication/presentation/view/sign_in_view.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/main_page_view.dart';
 import 'package:cis_logistics_app/features/onboarding/presentation/views/on_boarding_screen.dart';
+import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/profile/presentation/view/change_password_view.dart';
 import 'package:cis_logistics_app/features/profile/presentation/view/user_profile_view.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,20 @@ class AppRoutes {
 
       //* app main screens
       case Routes.mainPageScreen:
-        return MaterialPageRoute(builder: (_) => const MainPageView());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<UserCubit>()..loadUserData(),
+            child: const MainPageView(),
+          ),
+        );
 
       case Routes.userProfileScreen:
-        return MaterialPageRoute(builder: (_) => const UserProfileView());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider.value(
+            value: getIt<UserCubit>(),
+            child: const UserProfileView(),
+          ),
+        );
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => const ChangePasswordView());
       default:
