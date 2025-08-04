@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:dio/dio.dart';
 import 'api_constants.dart';
 import 'api_error_model.dart';
@@ -81,12 +82,17 @@ class ApiErrorHandler {
         return null;
       }
       final errorModel = ApiErrorModel.fromJson(response.data);
-      final message = errorModel.message.toLowerCase();
+      final message = errorModel.message;
 
-      if (statusCode == 401 && message.contains('invalid credentials')) {
+      if (message == null || message.isEmpty) {
+        return null;
+      }
+
+      if (statusCode == 401 &&
+          message.toLowerCase().contains('invalid credentials')) {
         return ApiErrorMessages.invalidCredentials;
       }
-      return errorModel.message;
+      return message;
     } catch (e) {
       return null;
     }
@@ -124,7 +130,6 @@ class ApiErrorHandler {
     );
   }
 
-  /// Extracts a user-friendly message from any exception
   static String extractErrorMessage(dynamic error) {
     if (error is DioException) {
       return handleDioException(error);
@@ -138,6 +143,9 @@ class ApiErrorHandler {
       return ApiErrorMessages.parseError;
     }
 
-    return error?.toString() ?? ApiErrorMessages.unknownError;
+    final errorString = error?.toString();
+    return !errorString.isNullOrEmpty()
+        ? errorString!
+        : ApiErrorMessages.unknownError;
   }
 }

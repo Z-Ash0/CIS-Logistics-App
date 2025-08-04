@@ -63,9 +63,11 @@ class _MainPageViewState extends State<MainPageView> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        currentIndex: _currentIndex,
-        onTap: _onNavItemTapped,
+      bottomNavigationBar: SafeArea(
+        child: CustomBottomNavigationBar(
+          currentIndex: _currentIndex,
+          onTap: _onNavItemTapped,
+        ),
       ),
     );
   }

@@ -28,7 +28,7 @@ class AuthRepository {
         response.token,
       );
       getIt<StorageService>().setIsloggedInValue(true);
-      getIt<StorageService>().setUserRoleValue(role.name);
+      getIt<StorageService>().setUserRoleValue(role.endpoint);
       return ApiResult.success(response);
     } on Exception catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));

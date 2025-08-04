@@ -27,8 +27,7 @@ extension IsLoggedInLocalStorage on StorageService {
 //* UserRole extension
 extension UserRoleLocalStorage on StorageService {
   String? get userRole =>
-      userRoleBox.get(StorageServiceKeys.kUserRole, defaultValue: null)
-          as String?;
+      userRoleBox.get(StorageServiceKeys.kUserRole, defaultValue: null);
 
   Future<void> setUserRoleValue(String? value) async {
     await userRoleBox.put(StorageServiceKeys.kUserRole, value);
@@ -37,7 +36,7 @@ extension UserRoleLocalStorage on StorageService {
 
 //* ThemeMode extension
 extension ThemeModeLocalStorage on StorageService {
-  String get themeMode => themeModeBox.get(
+  String? get themeMode => themeModeBox.get(
     StorageServiceKeys.kThemeMode,
     defaultValue: ThemeMode.system.name,
   );

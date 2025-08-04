@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 class ThemeService {
   Future<ThemeMode> getSavedTheme() async {
-    final String theme = getIt<StorageService>().themeMode;
-    return ThemeMode.values.byName(theme);
+    final String? theme = getIt<StorageService>().themeMode;
+    return ThemeMode.values.byName(theme ?? ThemeMode.system.name);
   }
 
   Future<void> saveTheme(ThemeMode theme) async {

@@ -22,23 +22,38 @@ class StorageService {
   Future<void> _initHive() async {
     if (_isHiveInitialized) return;
     await Hive.initFlutter();
+    if (!Hive.isAdapterRegistered(0)) {
+      Hive.registerAdapter(UserDataAdapter());
+    }
     await _openHiveBoxes();
     _isHiveInitialized = true;
   }
 
   Future<void> _openHiveBoxes() async {
+    // Open critical boxes first (needed for initial route)
     isFirstTimeBox = await openHiveBox(StorageServiceBoxNames.isFirstTime);
     isLoggedInBox = await openHiveBox(StorageServiceBoxNames.isLoggedIn);
-    userRoleBox = await openHiveBox(StorageServiceBoxNames.userRole);
     themeModeBox = await openHiveBox(StorageServiceBoxNames.themeMode);
-    userDataBox = await Hive.openBox<UserData>(StorageServiceBoxNames.userData);
+
+    userRoleBox = await openHiveBox(StorageServiceBoxNames.userRole);
+    // Clear userData box if it has corrupted data
+    try {
+      userDataBox = await openHiveBox<UserData>(
+        StorageServiceBoxNames.userData,
+      );
+    } catch (e) {
+      await Hive.deleteBoxFromDisk(StorageServiceBoxNames.userData);
+      userDataBox = await openHiveBox<UserData>(
+        StorageServiceBoxNames.userData,
+      );
+    }
   }
 
-  Future<Box> openHiveBox(String boxName) async {
+  Future<Box<T>> openHiveBox<T>(String boxName) async {
     if (!Hive.isBoxOpen(boxName)) {
-      return await Hive.openBox(boxName);
+      return await Hive.openBox<T>(boxName);
     }
-    return Hive.box(boxName);
+    return Hive.box<T>(boxName);
   }
 
   Future<void> _initSecureStorage() async {
@@ -63,8 +78,8 @@ class StorageService {
   Future<void> clearAllSecure() async => await _secureStorage?.deleteAll();
 
   // User data methods
-  Future<void> saveUserData(User user) async {
-    await userDataBox.put(StorageServiceKeys.kUserData, user.data);
+  Future<void> saveUserData(UserData user) async {
+    await userDataBox.put(StorageServiceKeys.kUserData, user);
   }
 
   UserData? getUserData() {

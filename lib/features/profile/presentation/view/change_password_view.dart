@@ -52,6 +52,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
         centerTitle: true,
       ),
       body: SafeArea(
+        maintainBottomViewPadding: false,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Form(

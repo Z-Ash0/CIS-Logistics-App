@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 //* Screen
 extension ScreenSizes on BuildContext {
-  get screenHeight => MediaQuery.of(this).size.height;
-  get screenWidth => MediaQuery.of(this).size.width;
+  double get screenHeight => MediaQuery.of(this).size.height;
+  double get screenWidth => MediaQuery.of(this).size.width;
 
   double setBasedOnScreenHeight(double value) => screenHeight * value;
 
