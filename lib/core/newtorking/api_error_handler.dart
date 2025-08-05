@@ -36,15 +36,15 @@ class ApiErrorHandler {
     }
   }
 
-  /// Maps HTTP status codes to appropriate error messages
   static String _handleHttpStatusCode([Response? response]) {
     final statusCode = response?.statusCode;
     if (statusCode == null) return ApiErrorMessages.unknownError;
 
-    // Try to parse error response using ApiErrorModel for more specific messages
     if (response != null) {
-      final specificMessage = _parseErrorResponse(response, statusCode);
-      if (specificMessage != null) return specificMessage;
+      final serverMessage = _extractServerErrorMessage(response);
+      if (serverMessage != null && serverMessage.isNotEmpty) {
+        return serverMessage;
+      }
     }
 
     switch (statusCode) {
@@ -76,23 +76,35 @@ class ApiErrorHandler {
     }
   }
 
-  static String? _parseErrorResponse(Response response, int statusCode) {
+  static String? _extractServerErrorMessage(Response response) {
     try {
-      if (response.data is! Map<String, dynamic>) {
-        return null;
-      }
-      final errorModel = ApiErrorModel.fromJson(response.data);
-      final message = errorModel.message;
+      final data = response.data;
 
-      if (message == null || message.isEmpty) {
-        return null;
+      if (data is Map<String, dynamic>) {
+        final errorModel = ApiErrorModel.fromJson(data);
+        final serverMessage = errorModel.errorMessage;
+
+        if (serverMessage != null && serverMessage.isNotEmpty) {
+          if (response.statusCode == 401 &&
+              serverMessage.toLowerCase().contains('invalid credentials')) {
+            return ApiErrorMessages.invalidCredentials;
+          }
+          return serverMessage;
+        }
+
+        // Try other common error field names if ApiErrorModel doesn't work
+        for (final key in ['error', 'message', 'detail', 'details', 'msg']) {
+          final value = data[key];
+          if (value is String && value.isNotEmpty) {
+            return value;
+          }
+        }
+      }
+      if (data is String && data.isNotEmpty) {
+        return data;
       }
 
-      if (statusCode == 401 &&
-          message.toLowerCase().contains('invalid credentials')) {
-        return ApiErrorMessages.invalidCredentials;
-      }
-      return message;
+      return null;
     } catch (e) {
       return null;
     }

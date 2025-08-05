@@ -68,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 onPressed: () => setState(() => _obscureText = !_obscureText),
                 icon: Icon(
                   _obscureText ? Icons.visibility : Icons.visibility_off,
+                  color: AppColors.darkGray,
                 ),
               )
             : null,

@@ -21,28 +21,31 @@ class RememberMeAndForgetPasswordSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            SizedBox(
-              width: 20,
-              height: 20,
-              child: Transform.scale(
-                scale: 1.2,
-                child: Checkbox(
-                  value: rememberMe,
-                  onChanged: onChanged,
-                  activeColor: AppColors.lightGreen,
+        GestureDetector(
+          onTap: () => onChanged?.call(!rememberMe),
+          child: Row(
+            children: [
+              SizedBox(
+                width: 20,
+                height: 20,
+                child: Transform.scale(
+                  scale: 1.2,
+                  child: Checkbox(
+                    value: rememberMe,
+                    onChanged: onChanged,
+                    activeColor: AppColors.lightGreen,
+                  ),
                 ),
               ),
-            ),
-            horizontalSpace(8),
-            Text(
-              AppStrings.rememberMeLabel,
-              style: AppTextStyles.bold12.copyWith(
-                color: context.customColors.requiredTextColor,
+              horizontalSpace(8),
+              Text(
+                AppStrings.rememberMeLabel,
+                style: AppTextStyles.bold12.copyWith(
+                  color: context.customColors.requiredTextColor,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         TextButton(
           onPressed: () => context.navigateTo(Routes.forgotPasswordScreen),

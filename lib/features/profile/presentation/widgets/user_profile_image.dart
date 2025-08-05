@@ -16,7 +16,7 @@ class UserProfileImage extends StatelessWidget {
             shape: BoxShape.circle,
             border: Border.all(color: const Color(0xFF2D9B8B), width: 3),
           ),
-          child: UserAvatar(imageUrl: image),
+          child: UserAvatar(imageUrl: image, size: 60),
         ),
         Positioned(
           bottom: 0,

@@ -55,7 +55,7 @@ class _SignInViewState extends State<SignInView> {
                 verticalSpace(8),
                 const Text(AppStrings.signIn, style: AppTextStyles.bold24),
 
-                verticalSpaceScreen(context, 0.07),
+                verticalSpaceScreen(context, 0.05),
 
                 Form(
                   key: _signInFormKey,

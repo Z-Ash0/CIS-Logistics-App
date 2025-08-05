@@ -14,6 +14,10 @@ ThemeData getDarkTheme() {
       backgroundColor: AppColors.darkerGreen,
       elevation: 0,
     ),
+    iconTheme: const IconThemeData(color: AppColors.white),
+    iconButtonTheme: IconButtonThemeData(
+      style: IconButton.styleFrom(foregroundColor: AppColors.white),
+    ),
 
     checkboxTheme: CheckboxThemeData(
       checkColor: WidgetStateProperty.all(AppColors.white), // White ✓

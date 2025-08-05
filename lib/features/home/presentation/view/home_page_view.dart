@@ -3,7 +3,6 @@ import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
 import 'package:cis_logistics_app/core/widgets/user_avatar.dart';
-import 'package:cis_logistics_app/features/home/presentation/widgets/user_welcome_skeleton.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_states.dart';
 import 'package:cis_logistics_app/features/theme/logic/theme_cubit.dart';
@@ -76,26 +75,19 @@ class _HomePageViewState extends State<HomePageView> {
               : () => context.navigateTo(Routes.userProfileScreen),
           child: Skeletonizer(
             enabled: isLoading,
-            child: isLoading
-                ? const UserWelcomeSkeleton()
-                : Row(
-                    children: [
-                      SizedBox(
-                        width: 38,
-                        height: 38,
-                        child: UserAvatar(
-                          imageUrl: state.whenOrNull(
-                            success: (user) => user.avatar,
-                          ),
-                        ),
-                      ),
-                      horizontalSpace(12),
-                      Text(
-                        _getWelcomeMessage(state, isLoading),
-                        style: AppTextStyles.medium18,
-                      ),
-                    ],
-                  ),
+            child: Row(
+              children: [
+                UserAvatar(
+                  imageUrl: state.whenOrNull(success: (user) => user.avatar),
+                  size: 19.0,
+                ),
+                horizontalSpace(12),
+                Text(
+                  _getWelcomeMessage(state, isLoading),
+                  style: AppTextStyles.medium18,
+                ),
+              ],
+            ),
           ),
         );
       },
