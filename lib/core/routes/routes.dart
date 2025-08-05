@@ -39,7 +39,13 @@ class AppRoutes {
         );
 
       case Routes.confirmationCodeScreen:
-        return MaterialPageRoute(builder: (_) => const ConfirmationCodeView());
+        final String email = settings.arguments as String? ?? '';
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: ConfirmationCodeView(email: email),
+          ),
+        );
 
       case Routes.resetPasswordScreen:
         return MaterialPageRoute(builder: (_) => const ResetPasswordView());

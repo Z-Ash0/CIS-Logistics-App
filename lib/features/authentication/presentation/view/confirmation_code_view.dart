@@ -1,17 +1,17 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/spacers.dart';
-import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
-import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
-import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
-import 'package:cis_logistics_app/core/widgets/custom_button.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/widgets/confirmation_code_bloc_consumer.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/widgets/confirmation_code_header.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/widgets/otp_text_boxes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ConfirmationCodeView extends StatefulWidget {
-  const ConfirmationCodeView({super.key});
+  final String email;
+
+  const ConfirmationCodeView({super.key, required this.email});
 
   @override
   State<ConfirmationCodeView> createState() => _ConfirmationCodeViewState();
@@ -131,15 +131,12 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
           child: Column(
             children: [
               _buildBackButton(),
-              verticalSpaceScreen(context, 0.07),
-              _buildLogo(context),
-              verticalSpace(8),
-              const Text(
-                AppStrings.confirmationCode,
-                style: AppTextStyles.bold24,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: context.screenHeight * 0.07,
+                ),
+                child: ConfirmationCodeHeader(),
               ),
-              _buildSubtitle(),
-              verticalSpaceScreen(context, 0.07),
               OtpTextBoxes(
                 controllers: _controllers,
                 focusNodes: _focusNodes,
@@ -149,17 +146,10 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
                 errorMessage: _errorMessage,
               ),
               verticalSpaceScreen(context, 0.05),
-              CustomButton(
-                onPressed: () {
-                  if (_validateOtp()) {
-                    final otpCode = _getCompleteOtp();
-                    //TODO: Don't forget the backend Logic here - use otpCode
-                    debugPrint('OTP Code: $otpCode');
-                    context.navigateAndRemoveUntil(Routes.resetPasswordScreen);
-                  }
-                },
-                text: AppStrings.verify,
-                style: AppTextStyles.bold16,
+              ConfirmationCodeBlocConsumer(
+                otpIsValidated: _validateOtp(),
+                otpCode: _getCompleteOtp(),
+                email: widget.email,
               ),
             ],
           ),
@@ -175,27 +165,6 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
         alignment: Alignment.centerLeft,
         child: const Icon(Icons.arrow_back, size: 24, color: AppColors.black),
       ),
-    );
-  }
-
-  Widget _buildLogo(BuildContext context) {
-    return Image.asset(
-      Assets.cisLogo,
-      height: context.setBasedOnScreenHeight(0.1),
-    );
-  }
-
-  Widget _buildSubtitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          AppStrings.checkYourEmail,
-          style: AppTextStyles.bold16.copyWith(color: AppColors.lightGreen),
-        ),
-        horizontalSpace(4),
-        Image.asset(Assets.modrekCheckEmail, height: 32),
-      ],
     );
   }
 }
