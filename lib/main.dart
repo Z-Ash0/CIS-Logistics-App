@@ -12,7 +12,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  dotenv.load(fileName: ".env");
+  await dotenv.load(fileName: ".env");
   await setupDependencies();
   runApp(const CISLogistics());
 }

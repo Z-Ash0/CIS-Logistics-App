@@ -6,9 +6,13 @@ import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
+import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
 import 'package:cis_logistics_app/core/widgets/custom_button.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_cubit.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ForgetPasswordView extends StatefulWidget {
   const ForgetPasswordView({super.key});
@@ -32,7 +36,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        resizeToAvoidBottomInset: true,
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -64,7 +68,7 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                   style: AppTextStyles.bold24,
                 ),
 
-                verticalSpaceScreen(context, 0.07),
+                verticalSpaceScreen(context, 0.05),
 
                 Form(
                   key: _forgetPasswordFormKey,
@@ -80,16 +84,42 @@ class _ForgetPasswordViewState extends State<ForgetPasswordView> {
                       ),
                       verticalSpaceScreen(context, 0.05),
 
-                      CustomButton(
-                        onPressed: () {
-                          if (_forgetPasswordFormKey.currentState?.validate() ??
-                              false) {
-                            //TODO: Add backend logic here
-                            context.navigateTo(Routes.confirmationCodeScreen);
-                          }
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          return CustomButton(
+                            onPressed: () {
+                              if (_forgetPasswordFormKey.currentState
+                                      ?.validate() ??
+                                  false) {
+                                context
+                                    .read<AuthCubit>()
+                                    .emitForgetPasswordStates(
+                                      email: _emailController.text,
+                                    );
+                              }
+                              state.whenOrNull(
+                                success: (_) {
+                                  _emailController.clear();
+                                  context.navigateTo(
+                                    Routes.confirmationCodeScreen,
+                                  );
+                                },
+                                failure: (message) {
+                                  FlushBarUtils.flushBarError(message, context);
+                                },
+                              );
+                            },
+                            text: AppStrings.send,
+                            style: AppTextStyles.bold16,
+                            child: state.whenOrNull(
+                              loading: () => Center(
+                                child: CircularProgressIndicator(
+                                  color: AppColors.white,
+                                ),
+                              ),
+                            ),
+                          );
                         },
-                        text: AppStrings.send,
-                        style: AppTextStyles.bold16,
                       ),
                     ],
                   ),

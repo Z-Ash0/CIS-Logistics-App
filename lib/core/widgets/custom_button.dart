@@ -12,6 +12,7 @@ class CustomButton extends StatelessWidget {
     required this.text,
     this.style,
     this.defaultSize,
+    this.child,
   });
 
   final VoidCallback onPressed;
@@ -20,6 +21,7 @@ class CustomButton extends StatelessWidget {
   final String text;
   final TextStyle? style;
   final bool? defaultSize;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +40,7 @@ class CustomButton extends StatelessWidget {
         foregroundColor: foregroundColor ?? AppColors.white,
         backgroundColor: backgroundColor ?? AppColors.lightGreen,
       ),
-      child: Text(text, style: style ?? AppTextStyles.bold24),
+      child: child ?? Text(text, style: style ?? AppTextStyles.bold24),
     );
   }
 }

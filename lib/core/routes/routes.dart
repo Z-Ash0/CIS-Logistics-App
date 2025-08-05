@@ -31,7 +31,12 @@ class AppRoutes {
         );
 
       case Routes.forgotPasswordScreen:
-        return MaterialPageRoute(builder: (_) => const ForgetPasswordView());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<AuthCubit>(),
+            child: const ForgetPasswordView(),
+          ),
+        );
 
       case Routes.confirmationCodeScreen:
         return MaterialPageRoute(builder: (_) => const ConfirmationCodeView());

@@ -91,7 +91,7 @@ class _SignInViewState extends State<SignInView> {
                       CustomButton(
                         onPressed: () {
                           LoginRequest loginRequest = LoginRequest(
-                            email: _emailController.text.trim(),
+                            email: _emailController.text,
                             password: _passwordController.text.trim(),
                             rememberMe: _rememberMe,
                           );

@@ -6,6 +6,7 @@ import 'package:cis_logistics_app/core/newtorking/api_result.dart';
 import 'package:cis_logistics_app/core/newtorking/api_service.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/forget_password_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
 
@@ -31,6 +32,17 @@ class AuthRepository {
       getIt<StorageService>().setUserRoleValue(role.endpoint);
       return ApiResult.success(response);
     } on Exception catch (e) {
+      return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
+    }
+  }
+
+  Future<ApiResult<void>> sendOTP(String email) async {
+    try {
+      await apiService.sendOTPCode(
+        forgetPasswordRequest: ForgetPasswordRequest(email: email),
+      );
+      return ApiResult.success(null);
+    } catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
     }
   }

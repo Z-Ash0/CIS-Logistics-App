@@ -11,7 +11,7 @@ class AppValidators {
       return AppStrings.enterEmailAddress;
     }
 
-    if (!AppRegex.isEmailValid(value!)) {
+    if (!AppRegex.isEmailValid(value!.trim())) {
       return AppStrings.enterValidEmail;
     }
 
