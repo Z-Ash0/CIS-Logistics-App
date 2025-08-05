@@ -5,6 +5,7 @@ import 'package:cis_logistics_app/core/newtorking/api_result.dart';
 import 'package:cis_logistics_app/core/newtorking/api_service.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/features/profile/data/model/user.dart';
+import 'package:cis_logistics_app/features/profile/data/model/reset_password_request.dart';
 
 class UserRepository {
   final ApiService _apiService;
@@ -27,6 +28,32 @@ class UserRepository {
       userData = userResponse.data;
       await getIt<StorageService>().saveUserData(userData);
       return ApiResult.success(userData);
+    } catch (error) {
+      return ApiResult.failure(ApiErrorHandler.extractErrorMessage(error));
+    }
+  }
+
+  Future<ApiResult<String>> resetPassword({
+    required String oldPassword,
+    required String newPassword,
+  }) async {
+    try {
+      final userRole = getIt<StorageService>().userRole;
+      if (userRole == null) {
+        return ApiResult.failure("User not logged in");
+      }
+
+      final resetPasswordRequest = ResetPasswordRequest(
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      );
+
+      final response = await _apiService.resetPassword(
+        role: userRole,
+        resetPasswordRequest: resetPasswordRequest,
+      );
+
+      return ApiResult.success(response.message);
     } catch (error) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(error));
     }

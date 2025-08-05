@@ -1,4 +1,3 @@
-import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
@@ -25,7 +24,11 @@ class ConfirmationCodeBlocConsumer extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         state.whenOrNull(
-          success: (_) => context.navigateTo(Routes.resetPasswordScreen),
+          success: (_) => Navigator.pushNamed(
+            context,
+            Routes.resetPasswordScreen,
+            arguments: {'email': email, 'otp': otpCode},
+          ),
           failure: (message) => FlushBarUtils.flushBarError(message, context),
         );
       },

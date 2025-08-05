@@ -11,6 +11,8 @@ import 'package:cis_logistics_app/features/authentication/data/model/login_reque
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_response.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_request.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_response.dart';
 
 class AuthRepository {
   final ApiService apiService;
@@ -56,6 +58,19 @@ class AuthRepository {
     try {
       final response = await apiService.verifyOtp(
         verifyOtpRequest: VerifyOtpRequest(email: email, otp: otp),
+      );
+      return ApiResult.success(response);
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
+    }
+  }
+
+  Future<ApiResult<ResetPasswordOtpResponse>> resetPasswordWithOtp(
+    ResetPasswordOtpRequest resetPasswordOtpRequest,
+  ) async {
+    try {
+      final response = await apiService.resetPasswordWithOtp(
+        resetPasswordOtpRequest: resetPasswordOtpRequest,
       );
       return ApiResult.success(response);
     } catch (e) {

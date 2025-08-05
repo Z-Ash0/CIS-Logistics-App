@@ -3,9 +3,8 @@ import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
-import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
-import 'package:cis_logistics_app/core/widgets/custom_button.dart';
 import 'package:cis_logistics_app/features/profile/presentation/widgets/user_text_field.dart';
+import 'package:cis_logistics_app/features/profile/presentation/widgets/reset_password_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -24,7 +23,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   void initState() {
     super.initState();
-    _currentPasswordController.text = 'This is the old Pass';
   }
 
   @override
@@ -38,6 +36,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -66,8 +65,8 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                       UserTextField(
                         controller: _currentPasswordController,
                         labelText: AppStrings.currentPassword,
+                        validator: AppValidators.passwordValidator,
                         isPassword: true,
-                        isReadOnly: true,
                       ),
 
                       verticalSpace(24),
@@ -96,19 +95,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                   ),
                 ),
                 // Update Password Button
-                CustomButton(
-                  text: AppStrings.updatePassword,
-                  style: AppTextStyles.medium16,
-                  defaultSize: true,
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      //TODO: Don't Forget the backend Logic here
-                      FlushBarUtils.flushBarSuccess(
-                        AppStrings.passwordUpdatedSuccessfully,
-                        context,
-                      );
-                    }
-                  },
+                ResetPasswordBlocConsumer(
+                  oldPassword: _currentPasswordController.text,
+                  newPassword: _newPasswordController.text,
+                  isFormValid: formKey.currentState?.validate() ?? false,
                 ),
               ],
             ),

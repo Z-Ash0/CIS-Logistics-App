@@ -73,7 +73,10 @@ class _UserProfileViewState extends State<UserProfileView> {
           child: Column(
             children: [
               verticalSpaceScreen(context, 0.02),
-              UserProfileImage(image: userAvatar),
+              Hero(
+                tag: 'user profile',
+                child: UserProfileImage(image: userAvatar),
+              ),
               verticalSpace(8),
               // Name Display
               Text(

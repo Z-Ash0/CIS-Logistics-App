@@ -20,4 +20,22 @@ class UserCubit extends Cubit<UserState> {
           emit(UserState.failure(error.toString()));
         });
   }
+
+  void resetPassword({
+    required String oldPassword,
+    required String newPassword,
+  }) {
+    emit(const UserState.loading());
+    _userRepository
+        .resetPassword(oldPassword: oldPassword, newPassword: newPassword)
+        .then((result) {
+          result.when(
+            onSuccess: (message) => emit(UserState.success(message)),
+            onFailure: (errorMessage) => emit(UserState.failure(errorMessage)),
+          );
+        })
+        .catchError((error) {
+          emit(UserState.failure(error.toString()));
+        });
+  }
 }

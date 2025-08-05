@@ -48,7 +48,15 @@ class AppRoutes {
         );
 
       case Routes.resetPasswordScreen:
-        return MaterialPageRoute(builder: (_) => const ResetPasswordView());
+        final args = settings.arguments as Map<String, dynamic>?;
+        final email = args?['email'] as String? ?? '';
+        final otp = args?['otp'] as String? ?? '';
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<AuthCubit>.value(
+            value: getIt<AuthCubit>(),
+            child: ResetPasswordView(email: email, otp: otp),
+          ),
+        );
 
       case Routes.passwordChangeSuccessScreen:
         return MaterialPageRoute(
@@ -72,7 +80,12 @@ class AppRoutes {
           ),
         );
       case Routes.changePasswordScreen:
-        return MaterialPageRoute(builder: (_) => const ChangePasswordView());
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider<UserCubit>.value(
+            value: getIt<UserCubit>(),
+            child: const ChangePasswordView(),
+          ),
+        );
       default:
         return null;
     }

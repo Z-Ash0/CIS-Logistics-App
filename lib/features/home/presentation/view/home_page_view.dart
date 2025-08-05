@@ -77,9 +77,12 @@ class _HomePageViewState extends State<HomePageView> {
             enabled: isLoading,
             child: Row(
               children: [
-                UserAvatar(
-                  imageUrl: state.whenOrNull(success: (user) => user.avatar),
-                  size: 19.0,
+                Hero(
+                  tag: 'user profile',
+                  child: UserAvatar(
+                    imageUrl: state.whenOrNull(success: (user) => user.avatar),
+                    size: 19.0,
+                  ),
                 ),
                 horizontalSpace(12),
                 Text(

@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cis_logistics_app/core/enums/user_role.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/repository/auth_repository.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_states.dart';
 
@@ -47,6 +48,23 @@ class AuthCubit extends Cubit<AuthState> {
   }) async {
     emit(AuthState.loading());
     final response = await authRepository.verifyOtp(email: email, otp: otp);
+    response.when(
+      onSuccess: (data) {
+        emit(AuthState.success(data));
+      },
+      onFailure: (error) {
+        emit(AuthState.failure(error));
+      },
+    );
+  }
+
+  Future<void> emitResetPasswordWithOtpStates({
+    required ResetPasswordOtpRequest resetPasswordOtpRequest,
+  }) async {
+    emit(AuthState.loading());
+    final response = await authRepository.resetPasswordWithOtp(
+      resetPasswordOtpRequest,
+    );
     response.when(
       onSuccess: (data) {
         emit(AuthState.success(data));
