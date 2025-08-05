@@ -2,6 +2,8 @@ import 'package:cis_logistics_app/core/newtorking/api_constants.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/forget_password_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_request.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_response.dart';
 import 'package:cis_logistics_app/features/profile/data/model/user.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
@@ -24,5 +26,10 @@ abstract class ApiService {
   @POST('members/${EndPoints.forgetPassword}')
   Future<void> sendOTPCode({
     @Body() required ForgetPasswordRequest forgetPasswordRequest,
+  });
+
+  @POST('members/${EndPoints.verifyOtp}')
+  Future<VerifyOtpResponse> verifyOtp({
+    @Body() required VerifyOtpRequest verifyOtpRequest,
   });
 }

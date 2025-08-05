@@ -9,6 +9,8 @@ import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/forget_password_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_request.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_response.dart';
 
 class AuthRepository {
   final ApiService apiService;
@@ -42,6 +44,20 @@ class AuthRepository {
         forgetPasswordRequest: ForgetPasswordRequest(email: email),
       );
       return ApiResult.success(null);
+    } catch (e) {
+      return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
+    }
+  }
+
+  Future<ApiResult<VerifyOtpResponse>> verifyOtp({
+    required String email,
+    required String otp,
+  }) async {
+    try {
+      final response = await apiService.verifyOtp(
+        verifyOtpRequest: VerifyOtpRequest(email: email, otp: otp),
+      );
+      return ApiResult.success(response);
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
     }

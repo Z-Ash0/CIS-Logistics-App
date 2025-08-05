@@ -40,4 +40,20 @@ class AuthCubit extends Cubit<AuthState> {
       },
     );
   }
+
+  Future<void> emitVerifyOtpStates({
+    required String email,
+    required String otp,
+  }) async {
+    emit(AuthState.loading());
+    final response = await authRepository.verifyOtp(email: email, otp: otp);
+    response.when(
+      onSuccess: (data) {
+        emit(AuthState.success(data));
+      },
+      onFailure: (error) {
+        emit(AuthState.failure(error));
+      },
+    );
+  }
 }
