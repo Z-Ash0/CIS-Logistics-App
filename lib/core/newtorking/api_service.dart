@@ -4,7 +4,11 @@ import 'package:cis_logistics_app/features/authentication/data/model/login_reque
 import 'package:cis_logistics_app/features/authentication/data/model/login_response.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_request.dart';
 import 'package:cis_logistics_app/features/authentication/data/model/verify_otp_response.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_request.dart';
+import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_response.dart';
 import 'package:cis_logistics_app/features/profile/data/model/user.dart';
+import 'package:cis_logistics_app/features/profile/data/model/reset_password_request.dart';
+import 'package:cis_logistics_app/features/profile/data/model/reset_password_response.dart';
 import 'package:dio/dio.dart';
 import 'package:retrofit/http.dart';
 
@@ -31,5 +35,16 @@ abstract class ApiService {
   @POST('members/${EndPoints.verifyOtp}')
   Future<VerifyOtpResponse> verifyOtp({
     @Body() required VerifyOtpRequest verifyOtpRequest,
+  });
+
+  @POST('{role}${EndPoints.resetPassword}')
+  Future<ResetPasswordResponse> resetPassword({
+    @Path() required String role,
+    @Body() required ResetPasswordRequest resetPasswordRequest,
+  });
+
+  @POST('members/${EndPoints.resetPasswordOtp}')
+  Future<ResetPasswordOtpResponse> resetPasswordWithOtp({
+    @Body() required ResetPasswordOtpRequest resetPasswordOtpRequest,
   });
 }
