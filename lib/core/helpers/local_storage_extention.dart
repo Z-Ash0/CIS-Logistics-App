@@ -1,3 +1,4 @@
+import 'package:cis_logistics_app/core/enums/user_role.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:flutter/material.dart';
@@ -26,10 +27,13 @@ extension IsLoggedInLocalStorage on StorageService {
 
 //* UserRole extension
 extension UserRoleLocalStorage on StorageService {
-  String? get userRole =>
-      userRoleBox.get(StorageServiceKeys.kUserRole, defaultValue: null);
+  UserRole? get userRole {
+    final endpoint = userRoleBox.get(StorageServiceKeys.kUserRole);
+    if (endpoint == null) return null;
+    return UserRole.values.firstWhere((e) => e.endpoint == endpoint);
+  }
 
-  Future<void> setUserRoleValue(String? value) async {
+  Future<void> setUserRoleValue(UserRole? value) async {
     await userRoleBox.put(StorageServiceKeys.kUserRole, value);
   }
 }

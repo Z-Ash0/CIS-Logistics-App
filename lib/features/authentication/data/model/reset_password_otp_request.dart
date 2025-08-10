@@ -8,10 +8,14 @@ class ResetPasswordOtpRequest {
   final String otp;
   final String password;
 
+  @JsonKey(name: 'password_confirmation')
+  final String passwordConfirmation;
+
   ResetPasswordOtpRequest({
     required this.email,
     required this.otp,
     required this.password,
+    required this.passwordConfirmation,
   });
 
   factory ResetPasswordOtpRequest.fromJson(Map<String, dynamic> json) =>

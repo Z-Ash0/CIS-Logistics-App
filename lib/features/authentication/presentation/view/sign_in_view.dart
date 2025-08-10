@@ -4,9 +4,8 @@ import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
-import 'package:cis_logistics_app/core/widgets/custom_button.dart';
-import 'package:cis_logistics_app/features/authentication/data/model/login_request.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_cubit.dart';
+import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_states.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/widgets/login_bloc_listener.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/widgets/remember_me_and_forget_password_section.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/widgets/role_identifier.dart';
@@ -52,63 +51,62 @@ class _SignInViewState extends State<SignInView> {
                   Assets.cisLogo,
                   height: context.setBasedOnScreenHeight(0.1),
                 ),
-                verticalSpace(8),
+                const SizedBox(height: 8),
                 const Text(AppStrings.signIn, style: AppTextStyles.bold24),
 
                 verticalSpaceScreen(context, 0.05),
 
                 Form(
                   key: _signInFormKey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RoleIdentifier(
-                        selectedRole: _selectedRole,
-                        onRoleChanged: (UserRole role) {
-                          setState(() {
-                            _selectedRole = role;
-                          });
-                        },
-                      ),
-                      verticalSpace(24),
+                  child: BlocBuilder<AuthCubit, AuthState>(
+                    builder: (context, state) {
+                      final isLoading = state.maybeWhen(
+                        loading: () => true,
+                        orElse: () => false,
+                      );
 
-                      SignInEmailPassword(
-                        passController: _passwordController,
-                        emailController: _emailController,
-                      ),
-                      verticalSpace(24),
+                      return AbsorbPointer(
+                        absorbing: isLoading,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RoleIdentifier(
+                              selectedRole: _selectedRole,
+                              onRoleChanged: (UserRole role) {
+                                setState(() {
+                                  _selectedRole = role;
+                                });
+                              },
+                            ),
+                            const SizedBox(height: 24),
 
-                      RememberMeAndForgetPasswordSection(
-                        rememberMe: _rememberMe,
-                        onChanged: (value) {
-                          setState(() {
-                            _rememberMe = value ?? false;
-                          });
-                        },
-                      ),
-                      verticalSpaceScreen(context, 0.05),
+                            SignInEmailPassword(
+                              passController: _passwordController,
+                              emailController: _emailController,
+                            ),
+                            const SizedBox(height: 24),
 
-                      CustomButton(
-                        onPressed: () {
-                          LoginRequest loginRequest = LoginRequest(
-                            email: _emailController.text,
-                            password: _passwordController.text.trim(),
-                            rememberMe: _rememberMe,
-                          );
+                            RememberMeAndForgetPasswordSection(
+                              rememberMe: _rememberMe,
+                              onChanged: (value) {
+                                setState(() {
+                                  _rememberMe = value ?? false;
+                                });
+                              },
+                            ),
+                            verticalSpaceScreen(context, 0.05),
 
-                          if (_signInFormKey.currentState?.validate() ??
-                              false) {
-                            context.read<AuthCubit>().emitLoginStates(
-                              loginRequest: loginRequest,
-                              role: _selectedRole,
-                            );
-                          }
-                        },
-                        text: AppStrings.signIn,
-                        style: AppTextStyles.bold16,
-                      ),
-                      LoginBlocListener(),
-                    ],
+                            LoginBlocConsumer(
+                              formKey: _signInFormKey,
+                              emailController: _emailController,
+                              passwordController: _passwordController,
+                              rememberMe: _rememberMe,
+                              selectedRole: _selectedRole,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],

@@ -29,9 +29,12 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
-  Future<void> emitForgetPasswordStates({required String email}) async {
+  Future<void> emitForgetPasswordStates({
+    required String email,
+    required UserRole role,
+  }) async {
     emit(AuthState.loading());
-    final response = await authRepository.sendOTP(email);
+    final response = await authRepository.sendOTP(email, role: role);
     response.when(
       onSuccess: (_) {
         emit(AuthState.success(null));

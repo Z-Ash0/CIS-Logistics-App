@@ -89,6 +89,9 @@ class ApiErrorHandler {
               serverMessage.toLowerCase().contains('invalid credentials')) {
             return ApiErrorMessages.invalidCredentials;
           }
+          if (serverMessage.contains('<!DOCTYPE html>')) {
+            return null;
+          }
           return serverMessage;
         }
 

@@ -1,4 +1,3 @@
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
@@ -21,7 +20,7 @@ class SignInEmailPassword extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFieldRequiredHeader(AppStrings.emailAddress),
-            verticalSpace(8),
+            const SizedBox(height: 8),
             CustomTextField(
               keyboardType: TextInputType.emailAddress,
               controller: emailController,
@@ -30,14 +29,14 @@ class SignInEmailPassword extends StatelessWidget {
           ],
         ),
 
-        verticalSpace(24),
+        const SizedBox(height: 24),
 
         // Password field
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFieldRequiredHeader(AppStrings.password),
-            verticalSpace(8),
+            const SizedBox(height: 8),
             CustomTextField(
               isObscured: true,
               controller: passController,

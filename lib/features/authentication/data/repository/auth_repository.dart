@@ -33,18 +33,23 @@ class AuthRepository {
         response.token,
       );
       getIt<StorageService>().setIsloggedInValue(true);
-      getIt<StorageService>().setUserRoleValue(role.endpoint);
+      getIt<StorageService>().setUserRoleValue(role);
       return ApiResult.success(response);
     } on Exception catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
     }
   }
 
-  Future<ApiResult<void>> sendOTP(String email) async {
+  Future<ApiResult<void>> sendOTP(
+    String email, {
+    required UserRole role,
+  }) async {
     try {
       await apiService.sendOTPCode(
         forgetPasswordRequest: ForgetPasswordRequest(email: email),
+        role: role.endpoint,
       );
+      getIt<StorageService>().setUserRoleValue(role);
       return ApiResult.success(null);
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
@@ -56,8 +61,13 @@ class AuthRepository {
     required String otp,
   }) async {
     try {
+      final userRole = getIt<StorageService>().userRole?.endpoint;
+      if (userRole == null) {
+        return ApiResult.failure("User role is not identified");
+      }
       final response = await apiService.verifyOtp(
         verifyOtpRequest: VerifyOtpRequest(email: email, otp: otp),
+        role: userRole,
       );
       return ApiResult.success(response);
     } catch (e) {
@@ -69,8 +79,13 @@ class AuthRepository {
     ResetPasswordOtpRequest resetPasswordOtpRequest,
   ) async {
     try {
+      final userRole = getIt<StorageService>().userRole?.endpoint;
+      if (userRole == null) {
+        return ApiResult.failure("User role is not identified");
+      }
       final response = await apiService.resetPasswordWithOtp(
         resetPasswordOtpRequest: resetPasswordOtpRequest,
+        role: userRole,
       );
       return ApiResult.success(response);
     } catch (e) {

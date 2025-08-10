@@ -1,7 +1,6 @@
 import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
@@ -51,7 +50,7 @@ class OnBoardingScreen extends StatelessWidget {
     return Column(
       children: [
         CustomButton(onPressed: onPressed, text: AppStrings.next),
-        verticalSpace(16),
+        const SizedBox(height: 16),
         CustomButton(
           onPressed: onPressed,
           text: AppStrings.skip,

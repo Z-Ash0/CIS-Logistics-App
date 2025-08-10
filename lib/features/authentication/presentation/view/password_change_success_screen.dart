@@ -1,5 +1,4 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
@@ -37,7 +36,7 @@ class PasswordChangeSuccessView extends StatelessWidget {
                         style: AppTextStyles.bold24,
                         textAlign: TextAlign.center,
                       ),
-                      verticalSpace(8),
+                      const SizedBox(height: 8),
 
                       const Text(
                         AppStrings.pleaseLogin,

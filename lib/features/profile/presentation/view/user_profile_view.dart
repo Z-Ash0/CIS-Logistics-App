@@ -77,7 +77,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                 tag: 'user profile',
                 child: UserProfileImage(image: userAvatar),
               ),
-              verticalSpace(8),
+              const SizedBox(height: 8),
               // Name Display
               Text(
                 getIt<StorageService>().getUserData()?.name.toUpperCase() ??
@@ -98,7 +98,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                       controller: _fullNameController,
                       isReadOnly: true,
                     ),
-                    verticalSpace(10),
+                    const SizedBox(height: 10),
 
                     UserTextField(
                       labelText: AppStrings.emailAddress,
@@ -106,7 +106,7 @@ class _UserProfileViewState extends State<UserProfileView> {
                       isReadOnly: true,
                     ),
 
-                    verticalSpace(18),
+                    const SizedBox(height: 18),
                     CustomButton(
                       text: AppStrings.changePassword,
                       onPressed: () =>

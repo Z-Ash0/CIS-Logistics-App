@@ -1,4 +1,3 @@
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +70,7 @@ class OtpTextBoxes extends StatelessWidget {
   Widget _buildErrorMessage() {
     return Column(
       children: [
-        verticalSpace(8),
+        const SizedBox(height: 8),
         Text(
           errorMessage!,
           style: AppTextStyles.regular16.copyWith(

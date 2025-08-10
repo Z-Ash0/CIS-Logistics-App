@@ -10,7 +10,14 @@ class ResetPasswordRequest {
   @JsonKey(name: 'new_password')
   final String newPassword;
 
-  ResetPasswordRequest({required this.oldPassword, required this.newPassword});
+  @JsonKey(name: 'new_password_confirmation')
+  final String newPasswordConfirmation;
+
+  ResetPasswordRequest({
+    required this.oldPassword,
+    required this.newPassword,
+    required this.newPasswordConfirmation,
+  });
 
   factory ResetPasswordRequest.fromJson(Map<String, dynamic> json) =>
       _$ResetPasswordRequestFromJson(json);

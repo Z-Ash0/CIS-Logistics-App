@@ -1,5 +1,4 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/helpers/theme_extension.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
@@ -37,7 +36,7 @@ class RememberMeAndForgetPasswordSection extends StatelessWidget {
                   ),
                 ),
               ),
-              horizontalSpace(8),
+              const SizedBox(width: 8),
               Text(
                 AppStrings.rememberMeLabel,
                 style: AppTextStyles.bold12.copyWith(

@@ -69,8 +69,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<void> sendOTPCode(
-      {required ForgetPasswordRequest forgetPasswordRequest}) async {
+  Future<void> sendOTPCode({
+    required String role,
+    required ForgetPasswordRequest forgetPasswordRequest,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -83,7 +85,7 @@ class _ApiService implements ApiService {
     )
         .compose(
           _dio.options,
-          'members/forget-password',
+          '${role}forget-password',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -91,8 +93,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<VerifyOtpResponse> verifyOtp(
-      {required VerifyOtpRequest verifyOtpRequest}) async {
+  Future<VerifyOtpResponse> verifyOtp({
+    required String role,
+    required VerifyOtpRequest verifyOtpRequest,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -106,7 +110,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'members/verify-otp',
+              '${role}verify-otp',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -143,8 +147,10 @@ class _ApiService implements ApiService {
   }
 
   @override
-  Future<ResetPasswordOtpResponse> resetPasswordWithOtp(
-      {required ResetPasswordOtpRequest resetPasswordOtpRequest}) async {
+  Future<ResetPasswordOtpResponse> resetPasswordWithOtp({
+    required String role,
+    required ResetPasswordOtpRequest resetPasswordOtpRequest,
+  }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
@@ -158,7 +164,7 @@ class _ApiService implements ApiService {
     )
             .compose(
               _dio.options,
-              'members/reset-password-otp',
+              '${role}reset-password-otp',
               queryParameters: queryParameters,
               data: _data,
             )

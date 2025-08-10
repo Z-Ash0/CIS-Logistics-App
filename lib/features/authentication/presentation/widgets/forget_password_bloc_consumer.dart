@@ -1,3 +1,4 @@
+import 'package:cis_logistics_app/core/enums/user_role.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
@@ -14,11 +15,14 @@ class ForgetPasswordBlocConsumer extends StatelessWidget {
     super.key,
     required TextEditingController emailController,
     required GlobalKey<FormState> forgetPasswordFormKey,
+    required UserRole selectedRole,
   }) : _emailController = emailController,
-       _forgetPasswordFormKey = forgetPasswordFormKey;
+       _forgetPasswordFormKey = forgetPasswordFormKey,
+       _selectedRole = selectedRole;
 
   final TextEditingController _emailController;
   final GlobalKey<FormState> _forgetPasswordFormKey;
+  final UserRole _selectedRole;
 
   @override
   Widget build(BuildContext context) {
@@ -40,21 +44,26 @@ class ForgetPasswordBlocConsumer extends StatelessWidget {
         );
       },
       builder: (context, state) {
-        return CustomButton(
-          onPressed: () {
-            if (_forgetPasswordFormKey.currentState?.validate() ?? false) {
-              context.read<AuthCubit>().emitForgetPasswordStates(
-                email: _emailController.text,
-              );
-            }
-          },
-          text: AppStrings.send,
-          style: AppTextStyles.bold16,
-          child: state.whenOrNull(
-            loading: () => SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(color: AppColors.white),
+        return AbsorbPointer(
+          absorbing: state.maybeWhen(loading: () => true, orElse: () => false),
+          child: CustomButton(
+            onPressed: () {
+              if ((_forgetPasswordFormKey.currentState?.validate() ?? false) &&
+                  !state.maybeWhen(loading: () => true, orElse: () => false)) {
+                context.read<AuthCubit>().emitForgetPasswordStates(
+                  role: _selectedRole,
+                  email: _emailController.text,
+                );
+              }
+            },
+            text: AppStrings.send,
+            style: AppTextStyles.bold16,
+            child: state.whenOrNull(
+              loading: () => SizedBox(
+                height: 20,
+                width: 20,
+                child: CircularProgressIndicator(color: AppColors.white),
+              ),
             ),
           ),
         );

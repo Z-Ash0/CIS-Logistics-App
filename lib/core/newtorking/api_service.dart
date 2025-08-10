@@ -27,13 +27,15 @@ abstract class ApiService {
   @GET('{role}${EndPoints.profile}')
   Future<User> getUserData({@Path() required String role});
 
-  @POST('members/${EndPoints.forgetPassword}')
+  @POST('{role}${EndPoints.forgetPassword}')
   Future<void> sendOTPCode({
+    @Path() required String role,
     @Body() required ForgetPasswordRequest forgetPasswordRequest,
   });
 
-  @POST('members/${EndPoints.verifyOtp}')
+  @POST('{role}${EndPoints.verifyOtp}')
   Future<VerifyOtpResponse> verifyOtp({
+    @Path() required String role,
     @Body() required VerifyOtpRequest verifyOtpRequest,
   });
 
@@ -43,8 +45,9 @@ abstract class ApiService {
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
 
-  @POST('members/${EndPoints.resetPasswordOtp}')
+  @POST('{role}${EndPoints.resetPasswordOtp}')
   Future<ResetPasswordOtpResponse> resetPasswordWithOtp({
+    @Path() required String role,
     @Body() required ResetPasswordOtpRequest resetPasswordOtpRequest,
   });
 }
