@@ -147,8 +147,8 @@ class _ConfirmationCodeViewState extends State<ConfirmationCodeView> {
               ),
               verticalSpaceScreen(context, 0.05),
               ConfirmationCodeBlocConsumer(
-                otpIsValidated: _validateOtp(),
-                otpCode: _getCompleteOtp(),
+                getOtpCode: _getCompleteOtp,
+                validateOtp: _validateOtp,
                 email: widget.email,
               ),
             ],

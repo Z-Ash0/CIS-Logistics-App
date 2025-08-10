@@ -1,5 +1,4 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
@@ -17,7 +16,7 @@ class ConfirmationCodeHeader extends StatelessWidget {
           Assets.cisLogo,
           height: context.setBasedOnScreenHeight(0.1),
         ),
-        verticalSpace(8),
+        const SizedBox(height: 8),
         const Text(AppStrings.confirmationCode, style: AppTextStyles.bold24),
         _buildSubtitle(),
       ],
@@ -32,7 +31,7 @@ Row _buildSubtitle() => Row(
       AppStrings.checkYourEmail,
       style: AppTextStyles.bold16.copyWith(color: AppColors.lightGreen),
     ),
-    horizontalSpace(4),
+    const SizedBox(width: 4),
     Image.asset(Assets.modrekCheckEmail, height: 32),
   ],
 );

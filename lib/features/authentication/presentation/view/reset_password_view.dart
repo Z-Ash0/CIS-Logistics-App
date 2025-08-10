@@ -8,7 +8,6 @@ import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
 import 'package:cis_logistics_app/core/widgets/custom_button.dart';
 import 'package:cis_logistics_app/core/widgets/custom_text_field.dart';
-import 'package:cis_logistics_app/features/authentication/data/model/reset_password_otp_request.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/widgets/reset_password_otp_bloc_consumer.dart';
 import 'package:flutter/material.dart';
 
@@ -51,7 +50,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  verticalSpace(16),
+                  const SizedBox(height: 16),
                   GestureDetector(
                     onTap: () => context.pop(),
                     child: Container(
@@ -70,7 +69,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     height: context.setBasedOnScreenHeight(0.1),
                   ),
 
-                  verticalSpace(8),
+                  const SizedBox(height: 8),
 
                   const Text(
                     AppStrings.resetPassword,
@@ -96,7 +95,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           AppStrings.password,
                           style: AppTextStyles.medium18,
                         ),
-                        verticalSpace(8),
+                        const SizedBox(height: 8),
                         CustomTextField(
                           controller: _passController,
                           isObscured: true,
@@ -110,7 +109,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           style: AppTextStyles.medium18,
                           textAlign: TextAlign.center,
                         ),
-                        verticalSpace(8),
+                        const SizedBox(height: 8),
                         CustomTextField(
                           controller: _confirmPassController,
                           isObscured: true,
@@ -124,12 +123,11 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                         verticalSpaceScreen(context, 0.03),
 
                         ResetPasswordOtpBlocConsumer(
-                          resetPasswordOtpRequest: ResetPasswordOtpRequest(
-                            email: widget.email,
-                            otp: widget.otp,
-                            password: _passController.text,
-                          ),
-                          isFormValid: _isFormValid(),
+                          formKey: _resetPasswordFormKey,
+                          email: widget.email,
+                          getOtpCode: () => widget.otp,
+                          passwordController: _passController,
+                          confirmPasswordController: _confirmPassController,
                         ),
                         verticalSpaceScreen(context, 0.02),
 
@@ -142,7 +140,7 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                           foregroundColor: AppColors.lightGreen,
                           backgroundColor: AppColors.white,
                         ),
-                        verticalSpace(16),
+                        const SizedBox(height: 16),
                       ],
                     ),
                   ),
@@ -153,9 +151,5 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
         ),
       ),
     );
-  }
-
-  bool _isFormValid() {
-    return _resetPasswordFormKey.currentState?.validate() ?? false;
   }
 }
