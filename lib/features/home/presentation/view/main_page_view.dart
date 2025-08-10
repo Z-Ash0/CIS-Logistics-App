@@ -1,30 +1,59 @@
+import 'package:cis_logistics_app/core/utils/app_strings.dart';
+import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/home_page_view.dart';
-import 'package:cis_logistics_app/features/home/presentation/view/notification_screen.dart';
+import 'package:cis_logistics_app/features/home/presentation/view/instructions_screen.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/qr_scanner_screen.dart';
 import 'package:cis_logistics_app/features/home/presentation/widgets/custom_button_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class MainPageView extends StatefulWidget {
-  const MainPageView({super.key});
+  final int initialIndex;
+  final bool showLoginSuccess;
+
+  const MainPageView({
+    super.key,
+    this.initialIndex = 0,
+    this.showLoginSuccess = false,
+  });
 
   @override
   State<MainPageView> createState() => _MainPageViewState();
 }
 
 class _MainPageViewState extends State<MainPageView> {
-  int _currentIndex = 0;
+  late int _currentIndex;
   late PageController _pageController;
+  final GlobalKey<State<QRScannerScreen>> _qrScannerKey =
+      GlobalKey<State<QRScannerScreen>>();
 
-  static const List<Widget> _screens = [
-    HomePageView(),
-    QRScannerScreen(),
-    NotificationScreen(),
-  ];
+  late final List<Widget> _screens;
 
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _currentIndex = widget.initialIndex;
+    _pageController = PageController(initialPage: widget.initialIndex);
+    _screens = [
+      const HomePageView(),
+      QRScannerScreen(key: _qrScannerKey),
+      const InstructionsScreen(),
+    ];
+
+    if (widget.showLoginSuccess) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) {
+          FlushBarUtils.customFlushBarWithButtonIcon(
+            context,
+            onTap: () {
+              if (context.mounted) {
+                _onNavItemTapped(2);
+              }
+            },
+            msg: AppStrings.loginSuccess,
+          );
+        }
+      });
+    }
   }
 
   @override
@@ -35,14 +64,41 @@ class _MainPageViewState extends State<MainPageView> {
 
   void _onNavItemTapped(int index) {
     if (_currentIndex != index) {
+      // Stop QR scanner when leaving QR page
+      if (_currentIndex == 1) {
+        (_qrScannerKey.currentState as dynamic)?.stopScanner();
+      }
+
       setState(() {
         _currentIndex = index;
       });
-      _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
+
+      _pageController.jumpToPage(index);
+
+      // Start QR scanner when entering QR page
+      if (index == 1) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          (_qrScannerKey.currentState as dynamic)?.startScanner();
+        });
+      }
+    }
+  }
+
+  void _onPageChanged(int index) {
+    // Stop QR scanner when leaving QR page
+    if (_currentIndex == 1 && index != 1) {
+      (_qrScannerKey.currentState as dynamic)?.stopScanner();
+    }
+
+    setState(() {
+      _currentIndex = index;
+    });
+
+    // Start QR scanner when entering QR page
+    if (index == 1) {
+      Future.delayed(const Duration(milliseconds: 100), () {
+        (_qrScannerKey.currentState as dynamic)?.startScanner();
+      });
     }
   }
 
@@ -54,11 +110,7 @@ class _MainPageViewState extends State<MainPageView> {
           padding: const EdgeInsets.all(16.0),
           child: PageView(
             controller: _pageController,
-            onPageChanged: (index) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
+            onPageChanged: _onPageChanged,
             children: _screens,
           ),
         ),
