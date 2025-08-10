@@ -1,4 +1,5 @@
 import 'package:cis_logistics_app/core/di/dependency_injection.dart';
+import 'package:cis_logistics_app/core/enums/user_role.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/newtorking/api_error_handler.dart';
 import 'package:cis_logistics_app/core/newtorking/api_result.dart';
@@ -24,7 +25,9 @@ class UserRepository {
         return ApiResult.failure("User not logged in");
       }
 
-      final userResponse = await _apiService.getUserData(role: userRole);
+      final userResponse = await _apiService.getUserData(
+        role: userRole.endpoint,
+      );
       userData = userResponse.data;
       await getIt<StorageService>().saveUserData(userData);
       return ApiResult.success(userData);
@@ -34,19 +37,13 @@ class UserRepository {
   }
 
   Future<ApiResult<String>> resetPassword({
-    required String oldPassword,
-    required String newPassword,
+    required ResetPasswordRequest resetPasswordRequest,
   }) async {
     try {
-      final userRole = getIt<StorageService>().userRole;
+      final userRole = getIt<StorageService>().userRole?.endpoint;
       if (userRole == null) {
         return ApiResult.failure("User not logged in");
       }
-
-      final resetPasswordRequest = ResetPasswordRequest(
-        oldPassword: oldPassword,
-        newPassword: newPassword,
-      );
 
       final response = await _apiService.resetPassword(
         role: userRole,

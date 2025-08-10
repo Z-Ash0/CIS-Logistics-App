@@ -1,23 +1,41 @@
+import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
 import 'package:cis_logistics_app/core/widgets/custom_button.dart';
+import 'package:cis_logistics_app/features/profile/data/model/reset_password_request.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_states.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ResetPasswordBlocConsumer extends StatelessWidget {
-  final String oldPassword;
-  final String newPassword;
-  final bool isFormValid;
+  final TextEditingController oldPasswordController;
+  final TextEditingController newPasswordController;
+  final TextEditingController newPasswordConfirmationController;
+  final GlobalKey<FormState> formKey;
 
   const ResetPasswordBlocConsumer({
     super.key,
-    required this.oldPassword,
-    required this.newPassword,
-    required this.isFormValid,
+    required this.oldPasswordController,
+    required this.newPasswordController,
+    required this.newPasswordConfirmationController,
+    required this.formKey,
   });
+
+  void _handlePasswordReset(BuildContext context) {
+    if (formKey.currentState?.validate() ?? false) {
+      final resetPasswordRequest = ResetPasswordRequest(
+        oldPassword: oldPasswordController.text,
+        newPassword: newPasswordController.text,
+        newPasswordConfirmation: newPasswordConfirmationController.text,
+      );
+
+      context.read<UserCubit>().resetPassword(
+        resetPasswordRequest: resetPasswordRequest,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +60,17 @@ class ResetPasswordBlocConsumer extends StatelessWidget {
           text: AppStrings.updatePassword,
           style: AppTextStyles.medium16,
           defaultSize: true,
-          onPressed: (isFormValid && !isLoading)
-              ? () {
-                  context.read<UserCubit>().resetPassword(
-                    oldPassword: oldPassword,
-                    newPassword: newPassword,
-                  );
-                }
-              : () {},
-          child: state.whenOrNull(
-            loading: () => SizedBox(
-              height: 20,
-              width: 20,
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ),
-          ),
+          onPressed: isLoading ? () {} : () => _handlePasswordReset(context),
+          child: isLoading
+              ? SizedBox(
+                  height: 20,
+                  width: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                  ),
+                )
+              : null,
         );
       },
     );

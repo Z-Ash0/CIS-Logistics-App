@@ -1,10 +1,9 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:cis_logistics_app/core/utils/app_validators.dart';
-import 'package:cis_logistics_app/features/profile/presentation/widgets/user_text_field.dart';
 import 'package:cis_logistics_app/features/profile/presentation/widgets/reset_password_bloc_consumer.dart';
+import 'package:cis_logistics_app/features/profile/presentation/widgets/user_text_field.dart';
 import 'package:flutter/material.dart';
 
 class ChangePasswordView extends StatefulWidget {
@@ -19,11 +18,6 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
   final _currentPasswordController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   void dispose() {
@@ -69,7 +63,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         isPassword: true,
                       ),
 
-                      verticalSpace(24),
+                      const SizedBox(height: 24),
 
                       // New Password Field
                       UserTextField(
@@ -78,7 +72,7 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                         validator: AppValidators.newPasswordValidator,
                         isPassword: true,
                       ),
-                      verticalSpace(24),
+                      const SizedBox(height: 24),
 
                       // Confirm Password Field
                       UserTextField(
@@ -96,9 +90,10 @@ class _ChangePasswordViewState extends State<ChangePasswordView> {
                 ),
                 // Update Password Button
                 ResetPasswordBlocConsumer(
-                  oldPassword: _currentPasswordController.text,
-                  newPassword: _newPasswordController.text,
-                  isFormValid: formKey.currentState?.validate() ?? false,
+                  oldPasswordController: _currentPasswordController,
+                  newPasswordController: _newPasswordController,
+                  newPasswordConfirmationController: _confirmPasswordController,
+                  formKey: formKey,
                 ),
               ],
             ),
