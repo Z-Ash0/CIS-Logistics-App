@@ -8,7 +8,6 @@ import 'package:cis_logistics_app/features/profile/presentation/manager/user_sta
 import 'package:cis_logistics_app/features/theme/logic/theme_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_assets.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
@@ -80,11 +79,13 @@ class _HomePageViewState extends State<HomePageView> {
                 Hero(
                   tag: 'user profile',
                   child: UserAvatar(
-                    imageUrl: state.whenOrNull(success: (user) => user.avatar),
+                    imageUrl: state.whenOrNull(
+                      success: (userData) => userData?.avatar,
+                    ),
                     size: 19.0,
                   ),
                 ),
-                horizontalSpace(12),
+                const SizedBox(width: 12),
                 Text(
                   _getWelcomeMessage(state, isLoading),
                   style: AppTextStyles.medium18,
@@ -98,12 +99,18 @@ class _HomePageViewState extends State<HomePageView> {
   }
 
   String _getWelcomeMessage(UserState state, bool isLoading) {
-    final userName =
-        state.whenOrNull(
-          success: (user) => _extractFirstName(user.name),
-          failure: (_) => 'user',
-        ) ??
-        'user';
+    String userName = 'user';
+
+    try {
+      userName =
+          state.whenOrNull(
+            success: (userData) => _extractFirstName(userData?.name),
+            failure: (_) => 'user',
+          ) ??
+          'user';
+    } catch (e) {
+      userName = 'user';
+    }
 
     return '${AppStrings.welcome}, $userName!';
   }
@@ -111,8 +118,14 @@ class _HomePageViewState extends State<HomePageView> {
   String _extractFirstName(String? fullName) {
     if (fullName?.isEmpty ?? true) return 'user';
 
-    final firstName = fullName!.split(' ').first;
-    return firstName.length > 15 ? '${firstName.substring(0, 15)}…' : firstName;
+    try {
+      final firstName = fullName!.split(' ').first;
+      return firstName.length > 15
+          ? '${firstName.substring(0, 15)}…'
+          : firstName;
+    } catch (e) {
+      return 'user';
+    }
   }
 
   Widget _buildThemeSection(bool isSwitchedLight) {

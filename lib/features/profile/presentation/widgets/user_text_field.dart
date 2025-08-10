@@ -1,5 +1,4 @@
 import 'package:cis_logistics_app/core/helpers/extensions.dart';
-import 'package:cis_logistics_app/core/helpers/spacers.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class _UserTextFieldState extends State<UserTextField> {
           widget.labelText,
           style: AppTextStyles.medium18.copyWith(color: AppColors.lightGreen),
         ),
-        verticalSpace(8),
+        const SizedBox(height: 8),
         TextFormField(
           controller: widget.controller,
           validator: widget.validator,

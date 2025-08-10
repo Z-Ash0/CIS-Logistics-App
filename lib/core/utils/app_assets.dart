@@ -30,4 +30,6 @@ class Assets {
       "assets/images/splash_screen_light.png";
 
   static const String user = "assets/images/user_icon.png";
+
+  static const String instructions = "assets/images/instructions_icon.png";
 }

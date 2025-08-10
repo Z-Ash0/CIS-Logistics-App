@@ -52,7 +52,11 @@ class FlushBarUtils {
     ).show(context);
   }
 
-  static void customFlushBarWithButtonIcon(String msg, BuildContext context) {
+  static void customFlushBarWithButtonIcon(
+    BuildContext context, {
+    required VoidCallback onTap,
+    required String msg,
+  }) {
     _forceHideKeyboard(context);
 
     Flushbar(
@@ -72,7 +76,12 @@ class FlushBarUtils {
           ),
           const SizedBox(width: 8),
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Flushbar().dismiss(context);
+              Future.delayed(
+                const Duration(milliseconds: 100),
+              ).then((_) => onTap());
+            },
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(

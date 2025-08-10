@@ -65,10 +65,16 @@ class AppRoutes {
 
       //* app main screens
       case Routes.mainPageScreen:
+        final args = settings.arguments as Map<String, dynamic>?;
+        final initialIndex = args?['initialIndex'] as int? ?? 0;
+        final showLoginSuccess = args?['showLoginSuccess'] as bool? ?? false;
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<UserCubit>()..loadUserData(),
-            child: const MainPageView(),
+            child: MainPageView(
+              initialIndex: initialIndex,
+              showLoginSuccess: showLoginSuccess,
+            ),
           ),
         );
 
@@ -79,6 +85,7 @@ class AppRoutes {
             child: const UserProfileView(),
           ),
         );
+
       case Routes.changePasswordScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<UserCubit>.value(

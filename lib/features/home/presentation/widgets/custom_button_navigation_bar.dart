@@ -51,8 +51,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         ),
         BottomNavIBarItem(
           onTap: () => widget.onTap(2),
-          text: AppStrings.notifications,
-          icon: Assets.notification,
+          text: AppStrings.instructions,
+          icon: Assets.instructions,
           isSelected: widget.currentIndex == 2,
         ),
       ],
