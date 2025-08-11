@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     
     <application
-        android:label="cis_logistics_app"
+        android:label="CIS Logistics"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
