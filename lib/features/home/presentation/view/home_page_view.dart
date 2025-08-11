@@ -80,7 +80,7 @@ class _HomePageViewState extends State<HomePageView> {
                   tag: 'user profile',
                   child: UserAvatar(
                     imageUrl: state.whenOrNull(
-                      success: (userData) => userData?.avatar,
+                      success: (userData) => userData.avatar,
                     ),
                     size: 19.0,
                   ),

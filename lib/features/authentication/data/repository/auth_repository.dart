@@ -33,7 +33,7 @@ class AuthRepository {
         response.token,
       );
       getIt<StorageService>().setIsloggedInValue(true);
-      getIt<StorageService>().setUserRoleValue(role);
+      getIt<StorageService>().setUserRoleValue(role.endpoint);
       return ApiResult.success(response);
     } on Exception catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
@@ -49,7 +49,7 @@ class AuthRepository {
         forgetPasswordRequest: ForgetPasswordRequest(email: email),
         role: role.endpoint,
       );
-      getIt<StorageService>().setUserRoleValue(role);
+      getIt<StorageService>().setUserRoleValue(role.endpoint);
       return ApiResult.success(null);
     } catch (e) {
       return ApiResult.failure(ApiErrorHandler.extractErrorMessage(e));
@@ -61,7 +61,7 @@ class AuthRepository {
     required String otp,
   }) async {
     try {
-      final userRole = getIt<StorageService>().userRole?.endpoint;
+      final String? userRole = getIt<StorageService>().userRole;
       if (userRole == null) {
         return ApiResult.failure("User role is not identified");
       }
@@ -79,7 +79,7 @@ class AuthRepository {
     ResetPasswordOtpRequest resetPasswordOtpRequest,
   ) async {
     try {
-      final userRole = getIt<StorageService>().userRole?.endpoint;
+      final String? userRole = getIt<StorageService>().userRole;
       if (userRole == null) {
         return ApiResult.failure("User role is not identified");
       }

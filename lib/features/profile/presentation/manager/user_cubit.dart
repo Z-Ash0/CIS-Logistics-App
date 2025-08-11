@@ -19,10 +19,14 @@ class UserCubit extends Cubit<UserState> {
               firstTimeLoad = false;
               emit(UserState.success(data));
             },
-            onFailure: (message) => emit(UserState.failure(message)),
+            onFailure: (message) {
+              firstTimeLoad = false;
+              emit(UserState.failure(message));
+            },
           );
         })
         .catchError((error) {
+          firstTimeLoad = false;
           emit(UserState.failure(error.toString()));
         });
   }

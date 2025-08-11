@@ -1,5 +1,4 @@
 import 'package:cis_logistics_app/core/di/dependency_injection.dart';
-import 'package:cis_logistics_app/core/enums/user_role.dart';
 import 'package:cis_logistics_app/core/helpers/local_storage_extention.dart';
 import 'package:cis_logistics_app/core/newtorking/api_error_handler.dart';
 import 'package:cis_logistics_app/core/newtorking/api_result.dart';
@@ -20,14 +19,12 @@ class UserRepository {
         return ApiResult.success(userData);
       }
 
-      final userRole = getIt<StorageService>().userRole;
+      final String? userRole = getIt<StorageService>().userRole;
       if (userRole == null) {
         return ApiResult.failure("User not logged in");
       }
 
-      final userResponse = await _apiService.getUserData(
-        role: userRole.endpoint,
-      );
+      final userResponse = await _apiService.getUserData(role: userRole);
       userData = userResponse.data;
       await getIt<StorageService>().saveUserData(userData);
       return ApiResult.success(userData);
@@ -40,7 +37,7 @@ class UserRepository {
     required ResetPasswordRequest resetPasswordRequest,
   }) async {
     try {
-      final userRole = getIt<StorageService>().userRole?.endpoint;
+      final String? userRole = getIt<StorageService>().userRole;
       if (userRole == null) {
         return ApiResult.failure("User not logged in");
       }

@@ -26,18 +26,23 @@ class UserAvatar extends StatelessWidget {
       return _buildDefaultAvatar();
     }
 
+    String finalImageUrl = imageUrl!;
+    if (finalImageUrl.startsWith('http://')) {
+      finalImageUrl = finalImageUrl.replaceFirst('http://', 'https://');
+    }
+
     return CachedNetworkImage(
-      imageUrl: imageUrl!,
+      imageUrl: finalImageUrl,
       width: size * 2,
       height: size * 2,
       fit: BoxFit.cover,
-      progressIndicatorBuilder: (_, _, downloadProgress) =>
+      progressIndicatorBuilder: (context, url, downloadProgress) =>
           CircularProgressIndicator(
             value: downloadProgress.progress,
             color: AppColors.darkGreen,
             strokeWidth: 2,
           ),
-      errorWidget: (_, _, _) => _buildDefaultAvatar(),
+      errorWidget: (context, url, error) => _buildDefaultAvatar(),
     );
   }
 
