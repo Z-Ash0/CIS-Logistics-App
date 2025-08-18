@@ -1,10 +1,13 @@
+import 'package:cis_logistics_app/core/di/dependency_injection.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
 import 'package:cis_logistics_app/core/utils/flush_bar_utils.dart';
+import 'package:cis_logistics_app/features/scanner/presentation/manager/register_event_cubit.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/home_page_view.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/instructions_screen.dart';
-import 'package:cis_logistics_app/features/home/presentation/view/qr_scanner_screen.dart';
 import 'package:cis_logistics_app/features/home/presentation/widgets/custom_button_navigation_bar.dart';
+import 'package:cis_logistics_app/features/scanner/presentation/views/qr_scanner_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPageView extends StatefulWidget {
   final int initialIndex;
@@ -23,35 +26,20 @@ class MainPageView extends StatefulWidget {
 class _MainPageViewState extends State<MainPageView> {
   late int _currentIndex;
   late PageController _pageController;
-  final GlobalKey<State<QRScannerScreen>> _qrScannerKey =
-      GlobalKey<State<QRScannerScreen>>();
-
-  late final List<Widget> _screens;
 
   @override
   void initState() {
     super.initState();
     _currentIndex = widget.initialIndex;
     _pageController = PageController(initialPage: widget.initialIndex);
-    _screens = [
-      const HomePageView(),
-      QRScannerScreen(key: _qrScannerKey),
-      const InstructionsScreen(),
-    ];
 
     if (widget.showLoginSuccess) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (context.mounted) {
-          FlushBarUtils.customFlushBarWithButtonIcon(
-            context,
-            onTap: () {
-              if (context.mounted) {
-                _onNavItemTapped(2);
-              }
-            },
-            msg: AppStrings.loginSuccess,
-          );
-        }
+        FlushBarUtils.customFlushBarWithButtonIcon(
+          context,
+          onTap: () => _navigateToPage(2),
+          msg: AppStrings.loginSuccess,
+        );
       });
     }
   }
@@ -62,44 +50,11 @@ class _MainPageViewState extends State<MainPageView> {
     super.dispose();
   }
 
-  void _onNavItemTapped(int index) {
-    if (_currentIndex != index) {
-      // Stop QR scanner when leaving QR page
-      if (_currentIndex == 1) {
-        (_qrScannerKey.currentState as dynamic)?.stopScanner();
-      }
+  void _navigateToPage(int index) {
+    if (_currentIndex == index) return;
 
-      setState(() {
-        _currentIndex = index;
-      });
-
-      _pageController.jumpToPage(index);
-
-      // Start QR scanner when entering QR page
-      if (index == 1) {
-        Future.delayed(const Duration(milliseconds: 100), () {
-          (_qrScannerKey.currentState as dynamic)?.startScanner();
-        });
-      }
-    }
-  }
-
-  void _onPageChanged(int index) {
-    // Stop QR scanner when leaving QR page
-    if (_currentIndex == 1 && index != 1) {
-      (_qrScannerKey.currentState as dynamic)?.stopScanner();
-    }
-
-    setState(() {
-      _currentIndex = index;
-    });
-
-    // Start QR scanner when entering QR page
-    if (index == 1) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        (_qrScannerKey.currentState as dynamic)?.startScanner();
-      });
-    }
+    setState(() => _currentIndex = index);
+    _pageController.jumpToPage(index);
   }
 
   @override
@@ -110,15 +65,22 @@ class _MainPageViewState extends State<MainPageView> {
           padding: const EdgeInsets.all(16.0),
           child: PageView(
             controller: _pageController,
-            onPageChanged: _onPageChanged,
-            children: _screens,
+            onPageChanged: (index) => setState(() => _currentIndex = index),
+            children: [
+              const HomePageView(),
+              BlocProvider(
+                create: (context) => getIt<RegisterEventCubit>(),
+                child: const QRScannerScreen(),
+              ),
+              const InstructionsScreen(),
+            ],
           ),
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: CustomBottomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: _onNavItemTapped,
+          onTap: _navigateToPage,
         ),
       ),
     );
