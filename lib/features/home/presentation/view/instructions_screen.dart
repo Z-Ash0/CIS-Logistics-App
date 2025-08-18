@@ -1,3 +1,8 @@
+import 'package:cis_logistics_app/core/helpers/extensions.dart';
+import 'package:cis_logistics_app/core/utils/app_assets.dart';
+import 'package:cis_logistics_app/core/utils/app_text_styles.dart';
+import 'package:cis_logistics_app/features/home/data/model/section.dart';
+import 'package:cis_logistics_app/features/home/presentation/widgets/instruction_card.dart';
 import 'package:flutter/material.dart';
 
 class InstructionsScreen extends StatefulWidget {
@@ -10,41 +15,29 @@ class InstructionsScreen extends StatefulWidget {
 class _InstructionsScreenState extends State<InstructionsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Instructions')),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        body: ListView(
+          padding: const EdgeInsets.all(16),
           children: [
-            Text(
-              'Welcome to CIS Logistics App!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            Image.asset(
+              Assets.cisLogo,
+              height: context.setBasedOnScreenHeight(0.1),
             ),
-            SizedBox(height: 16),
-            Text(
-              'Here are the instructions for using the app:',
-              style: TextStyle(fontSize: 18),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Text(
+                'Logistics instructions',
+                style: AppTextStyles.bold24,
+                textAlign: TextAlign.center,
+              ),
             ),
-            SizedBox(height: 16),
-            Text(
-              '1. Use the Home tab to view your dashboard',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              '2. Use the QR Scanner tab to scan QR codes',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              '3. Check the Notifications tab for updates',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 8),
-            Text(
-              '4. View this instructions page anytime',
-              style: TextStyle(fontSize: 16),
+            ...allSections.map(
+              (section) => Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: InstructionCard(section: section),
+              ),
             ),
           ],
         ),
