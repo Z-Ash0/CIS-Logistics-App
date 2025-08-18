@@ -3,6 +3,8 @@ import 'package:cis_logistics_app/core/newtorking/dio_factory.dart';
 import 'package:cis_logistics_app/core/services/storage_service.dart';
 import 'package:cis_logistics_app/features/authentication/data/repository/auth_repository.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/manager/auth_cubit.dart';
+import 'package:cis_logistics_app/features/scanner/data/repositories/register_event_repository.dart';
+import 'package:cis_logistics_app/features/scanner/presentation/manager/register_event_cubit.dart';
 import 'package:cis_logistics_app/features/profile/data/repository/user_repository.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/theme/data/theme_service.dart';
@@ -47,4 +49,10 @@ Future<void> setupDependencies() async {
   getIt.registerLazySingleton<ThemeService>(() => ThemeService());
   // ThemeCubit injection
   getIt.registerLazySingleton<ThemeCubit>(() => ThemeCubit(getIt()));
+
+  //* Register Event
+  getIt.registerLazySingleton<RegisterEventRepository>(
+    () => RegisterEventRepository(getIt()),
+  );
+  getIt.registerFactory<RegisterEventCubit>(() => RegisterEventCubit(getIt()));
 }
