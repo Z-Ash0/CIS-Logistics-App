@@ -9,8 +9,9 @@ import 'package:cis_logistics_app/features/authentication/data/model/reset_passw
 import 'package:cis_logistics_app/features/profile/data/model/user.dart';
 import 'package:cis_logistics_app/features/profile/data/model/reset_password_request.dart';
 import 'package:cis_logistics_app/features/profile/data/model/reset_password_response.dart';
-import 'package:dio/dio.dart';
-import 'package:retrofit/http.dart';
+import 'package:cis_logistics_app/features/scanner/data/models/scanner_response.dart';
+import 'package:dio/dio.dart' hide Headers;
+import 'package:retrofit/retrofit.dart';
 
 part 'api_service.g.dart';
 
@@ -18,36 +19,42 @@ part 'api_service.g.dart';
 abstract class ApiService {
   factory ApiService(Dio dio, {String? baseUrl}) = _ApiService;
 
-  @POST('{role}${EndPoints.login}')
+  @POST('${EndPoints.apiAuth}{role}${EndPoints.login}')
   Future<LoginResponse> login({
     @Path() required String role,
     @Body() required LoginRequest loginRequest,
   });
 
-  @GET('{role}${EndPoints.profile}')
+  @GET('${EndPoints.apiAuth}{role}${EndPoints.profile}')
   Future<User> getUserData({@Path() required String role});
 
-  @POST('{role}${EndPoints.forgetPassword}')
+  @POST('${EndPoints.apiAuth}{role}${EndPoints.forgetPassword}')
   Future<void> sendOTPCode({
     @Path() required String role,
     @Body() required ForgetPasswordRequest forgetPasswordRequest,
   });
 
-  @POST('{role}${EndPoints.verifyOtp}')
+  @POST('${EndPoints.apiAuth}{role}${EndPoints.verifyOtp}')
   Future<VerifyOtpResponse> verifyOtp({
     @Path() required String role,
     @Body() required VerifyOtpRequest verifyOtpRequest,
   });
 
-  @POST('{role}${EndPoints.resetPassword}')
+  @POST('${EndPoints.apiAuth}{role}${EndPoints.resetPassword}')
   Future<ResetPasswordResponse> resetPassword({
     @Path() required String role,
     @Body() required ResetPasswordRequest resetPasswordRequest,
   });
 
-  @POST('{role}${EndPoints.resetPasswordOtp}')
+  @POST('${EndPoints.apiAuth}{role}${EndPoints.resetPasswordOtp}')
   Future<ResetPasswordOtpResponse> resetPasswordWithOtp({
     @Path() required String role,
     @Body() required ResetPasswordOtpRequest resetPasswordOtpRequest,
+  });
+
+  @POST('{path}')
+  Future<ScannerResponse> qrRegister({
+    @Path() required String path,
+    @Header('X-SECRET') required String secretValue,
   });
 }
