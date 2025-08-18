@@ -10,6 +10,8 @@ ThemeData getLightTheme() {
       brightness: Brightness.light,
     ),
 
+    cardTheme: CardThemeData(color: const Color.fromARGB(255, 251, 250, 250)),
+
     appBarTheme: const AppBarTheme(
       backgroundColor: AppColors.white,
       elevation: 0,

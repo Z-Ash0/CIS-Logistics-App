@@ -27,8 +27,13 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     final double bgHeight = isTablet
         ? context.setBasedOnScreenHeight(0.06)
         : context.setBasedOnScreenHeight(0.08);
+    final double totalHeight = isTablet
+        ? context.setBasedOnScreenHeight(
+            0.09,
+          ) // Reduced from 0.12 but enough for content
+        : context.setBasedOnScreenHeight(0.1);
     return SizedBox(
-      height: context.setBasedOnScreenHeight(0.12),
+      height: totalHeight,
       child: Stack(children: [_backgroundNavBar(bgHeight), _navigationItems()]),
     );
   }

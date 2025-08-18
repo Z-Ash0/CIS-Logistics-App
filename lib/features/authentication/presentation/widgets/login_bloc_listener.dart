@@ -1,4 +1,5 @@
 import 'package:cis_logistics_app/core/enums/user_role.dart';
+import 'package:cis_logistics_app/core/helpers/extensions.dart';
 import 'package:cis_logistics_app/core/utils/app_colors.dart';
 import 'package:cis_logistics_app/core/utils/app_constants.dart';
 import 'package:cis_logistics_app/core/utils/app_strings.dart';
@@ -38,9 +39,8 @@ class LoginBlocConsumer extends StatelessWidget {
         state.whenOrNull(
           success: (data) {
             // Navigate to MainPageView with Home page (index 0) and show login success
-            Navigator.of(context).pushNamedAndRemoveUntil(
+            context.navigateAndRemoveUntil(
               Routes.mainPageScreen,
-              (route) => false,
               arguments: {'initialIndex': 0, 'showLoginSuccess': true},
             );
           },

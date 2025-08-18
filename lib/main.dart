@@ -7,14 +7,21 @@ import 'package:cis_logistics_app/features/theme/logic/theme_cubit.dart';
 import 'package:cis_logistics_app/features/theme/presentation/theme_data_dark.dart';
 import 'package:cis_logistics_app/features/theme/presentation/theme_data_light.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await dotenv.load(fileName: ".env");
   await setupDependencies();
-  runApp(const CISLogistics());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((_) {
+    runApp(const CISLogistics());
+  });
 }
 
 class CISLogistics extends StatelessWidget {
