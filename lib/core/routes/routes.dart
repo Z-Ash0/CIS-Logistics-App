@@ -6,7 +6,9 @@ import 'package:cis_logistics_app/features/authentication/presentation/view/forg
 import 'package:cis_logistics_app/features/authentication/presentation/view/password_change_success_screen.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/view/reset_password_view.dart';
 import 'package:cis_logistics_app/features/authentication/presentation/view/sign_in_view.dart';
+import 'package:cis_logistics_app/features/scanner/presentation/views/attendance_confirmed_view.dart';
 import 'package:cis_logistics_app/features/home/presentation/view/main_page_view.dart';
+import 'package:cis_logistics_app/features/scanner/presentation/views/scanning_canceled_view.dart';
 import 'package:cis_logistics_app/features/onboarding/presentation/views/on_boarding_screen.dart';
 import 'package:cis_logistics_app/features/profile/presentation/manager/user_cubit.dart';
 import 'package:cis_logistics_app/features/profile/presentation/view/change_password_view.dart';
@@ -78,6 +80,15 @@ class AppRoutes {
           ),
         );
 
+      case Routes.scanningCanceledScreen:
+        return MaterialPageRoute(builder: (_) => const ScanningCanceledView());
+
+      case Routes.attendanceConfirmedScreen:
+        return MaterialPageRoute(
+          builder: (_) => const AttendanceConfirmedView(),
+        );
+
+      //* User Profile
       case Routes.userProfileScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider.value(
@@ -85,7 +96,6 @@ class AppRoutes {
             child: const UserProfileView(),
           ),
         );
-
       case Routes.changePasswordScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider<UserCubit>.value(
@@ -93,6 +103,7 @@ class AppRoutes {
             child: const ChangePasswordView(),
           ),
         );
+
       default:
         return null;
     }

@@ -49,6 +49,13 @@ class AppStrings {
 
   // QR code page
   static const String qrCodeScanner = 'QR Code Scanner';
+  static const String alreadyCheckedIn = 'Already Checked In!';
+  static const String attendanceWasPreviouslyRecorded =
+      'Attendance was previously recorded.';
+  static const String scanAnother = 'Scan Another';
+  static const String successfulQrScanning =
+      'The QR has been scanned successfully. The attendee is now marked as present.';
+  static const String attendanceConfirmed = 'Attendance Confirmed';
   static const String instructions = 'Instructions';
 
   // User Profile

@@ -18,11 +18,15 @@ class Routes {
   //*main app screens
   static const String mainPageScreen = '/mainPageScreen';
   static const String userProfileScreen = '/userProfileScreen';
+  static const String attendanceConfirmedScreen = '/attendanceConfirmedScreen';
+  static const String scanningCanceledScreen = '/scanningCanceledScreen';
 }
 
 class StorageServiceBoxNames {
   static const String isFirstTime = 'isFirstTimeBox';
   static const String isLoggedIn = 'isLoggedInBox';
+  static const String isScanned = 'isScannedBox';
+
   static const String userRole = 'userRoleBox';
   static const String themeMode = 'themeModeBox';
   static const String userData = 'userDataBox';
@@ -31,6 +35,9 @@ class StorageServiceBoxNames {
 class StorageServiceKeys {
   static const String kIsFirstTime = 'isFirstTimeKey';
   static const String kIsLoggedIn = 'isLoggedInKey';
+  static const String kIsScanned = 'isScannedKey';
+  static const String kScannedQRCodes = 'scannedQRCodesKey';
+
   static const String kUserRole = 'userRoleKey';
   static const String kThemeMode = 'themeModeKey';
   static const String kAccessToken = 'accessTokenKey';

@@ -12,16 +12,27 @@ extension ScreenSizes on BuildContext {
 
 //* Navigation
 extension NavigationExtension on BuildContext {
-  void navigateTo(String routeName) {
-    Navigator.pushNamed(this, routeName);
+  Future<T?> navigateTo<T extends Object?>(
+    String routeName, {
+    Object? arguments,
+  }) {
+    return Navigator.pushNamed<T>(this, routeName, arguments: arguments);
   }
 
-  void navigateAndRemoveUntil(String routeName) {
-    Navigator.pushNamedAndRemoveUntil(this, routeName, (route) => false);
+  Future<T?> navigateAndRemoveUntil<T extends Object?>(
+    String routeName, {
+    Object? arguments,
+  }) {
+    return Navigator.pushNamedAndRemoveUntil<T>(
+      this,
+      routeName,
+      (route) => false,
+      arguments: arguments,
+    );
   }
 
-  void pop() {
-    Navigator.pop(this);
+  void pop<T extends Object?>([T? result]) {
+    Navigator.pop<T>(this, result);
   }
 }
 

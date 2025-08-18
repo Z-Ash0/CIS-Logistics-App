@@ -32,4 +32,10 @@ class Assets {
   static const String user = "assets/images/user_icon.png";
 
   static const String instructions = "assets/images/instructions_icon.png";
+
+  static const String modrekScanningDone =
+      "assets/images/modrek_scanning_done.png";
+
+  static const String modrekScanningCanceled =
+      "assets/images/modrek_scanning_canceled.png";
 }
